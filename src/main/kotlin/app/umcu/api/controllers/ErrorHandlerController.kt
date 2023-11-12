@@ -44,7 +44,6 @@ class ErrorHandlerController : ErrorController {
 	@RequestMapping("/error")
 	@ResponseBody
 	fun error(request: HttpServletRequest, response: HttpServletResponse): Error {
-		val status = HttpStatus.valueOf(response.status)
-		return Error(status.value(), status.reasonPhrase)
+		return Error(HttpStatus.valueOf(response.status))
 	}
 }

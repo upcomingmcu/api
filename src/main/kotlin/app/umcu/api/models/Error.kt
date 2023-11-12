@@ -27,6 +27,10 @@
 
 package app.umcu.api.models
 
+import org.springframework.http.HttpStatus
+
 data class Error(
 	val status: Int, val reason: String
-)
+) {
+	constructor(status: HttpStatus) : this(status.value(), status.reasonPhrase)
+}
