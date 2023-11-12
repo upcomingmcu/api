@@ -27,7 +27,7 @@
 
 @file:Suppress("unused")
 
-package app.umcu.api.exceptions
+package app.umcu.api.controllers
 
 import app.umcu.api.models.Error
 import jakarta.servlet.http.HttpServletRequest
