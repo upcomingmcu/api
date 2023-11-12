@@ -27,6 +27,6 @@
 
 package app.umcu.api.models
 
-data class ErrorModel(
+data class Error(
 	val status: Int, val reason: String
 )

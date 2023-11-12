@@ -29,7 +29,7 @@
 
 package app.umcu.api.exceptions
 
-import app.umcu.api.models.ErrorModel
+import app.umcu.api.models.Error
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.boot.web.servlet.error.ErrorController
@@ -43,8 +43,8 @@ class ErrorHandlerController : ErrorController {
 
 	@RequestMapping("/error")
 	@ResponseBody
-	fun error(request: HttpServletRequest, response: HttpServletResponse): ErrorModel {
+	fun error(request: HttpServletRequest, response: HttpServletResponse): Error {
 		val status = HttpStatus.valueOf(response.status)
-		return ErrorModel(status.value(), status.reasonPhrase)
+		return Error(status.value(), status.reasonPhrase)
 	}
 }
