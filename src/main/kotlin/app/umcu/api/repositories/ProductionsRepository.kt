@@ -25,22 +25,11 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-package app.umcu.api.models
+package app.umcu.api.repositories
 
-import app.umcu.api.extensions.toSlug
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
-import jakarta.persistence.UniqueConstraint
-import java.time.LocalDate
+import app.umcu.api.models.Production
+import org.springframework.data.jpa.repository.JpaRepository
+import org.springframework.stereotype.Repository
 
-@Suppress("unused")
-@Entity
-@Table(name = "productions", uniqueConstraints = [UniqueConstraint(columnNames = ["slug"])])
-data class Production(
-	@Column(nullable = false) var tmdbId: Int? = null,
-	@Column(nullable = false) var title: String? = null,
-	@Column(nullable = true) var releaseDate: LocalDate? = null,
-	@Id @Column(nullable = false) val slug: String? = title?.toSlug()
-)
+@Repository
+interface ProductionsRepository : JpaRepository<Production, String> {}

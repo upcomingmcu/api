@@ -25,10 +25,44 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-package app.umcu.api.models
+@file:Suppress("unused")
 
-data class APIResourceList<T>(
-	val count: Int, val data: List<T>
-) {
-	constructor(vararg dataSet: T) : this(dataSet.size, dataSet.toList())
+package app.umcu.api.config
+
+import app.umcu.api.models.Production
+import app.umcu.api.repositories.ProductionsRepository
+import org.springframework.boot.CommandLineRunner
+import org.springframework.context.annotation.Bean
+import org.springframework.context.annotation.Configuration
+import java.time.LocalDate
+
+@Configuration
+class ProductionsConfig {
+
+	/**
+	 * Load sample data into the database.
+	 * TODO: To be replaced by actual data from TMDB API
+	 */
+	@Bean
+	fun run(productionsRepository: ProductionsRepository): CommandLineRunner {
+		return CommandLineRunner {
+			productionsRepository.saveAll(
+				listOf(
+					Production(
+						tmdbId = 1771,
+						title = "Captain America: The First Avenger",
+						releaseDate = LocalDate.of(2011, 7, 22)
+					), Production(
+						tmdbId = 1726, title = "Iron Man", releaseDate = LocalDate.of(2008, 4, 30)
+					), Production(
+						tmdbId = 10195, title = "Thor", releaseDate = LocalDate.of(2011, 4, 21)
+					), Production(
+						tmdbId = 202555, title = "Daredevil: Born Again"
+					), Production(
+						tmdbId = 1003596, title = "Avengers: The Kang Dynasty", releaseDate = LocalDate.of(2026, 5, 1)
+					)
+				)
+			)
+		}
+	}
 }

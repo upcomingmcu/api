@@ -25,32 +25,10 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-@file:Suppress("unused")
+package app.umcu.api.extensions
 
-package app.umcu.api.controllers
+import java.util.*
 
-import app.umcu.api.models.APIResourceList
-import app.umcu.api.models.Production
-import org.springframework.http.HttpStatus
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ResponseStatusException
-
-@RestController
-@RequestMapping(path = ["/productions", "/p"])
-class ProductionController {
-
-	@GetMapping
-	fun getProductions(): APIResourceList<Production> {
-		return APIResourceList(*Production.sampleData)
-	}
-
-	@GetMapping("/{id}")
-	fun getProduction(@PathVariable id: Int): APIResourceList<Production> {
-		val production =
-			Production.sampleData.firstOrNull { it.id == id } ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
-		return APIResourceList(production)
-	}
-}
+fun String.toSlug() =
+	lowercase(Locale.getDefault()).replace("\n", " ").replace("[^a-z\\d\\s]".toRegex(), " ").split(" ")
+		.joinToString("-").replace("-+".toRegex(), "-")
