@@ -27,3 +27,4 @@ out/
 
 ### Custom ###
 .env
+db_data/

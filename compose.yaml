@@ -1,0 +1,34 @@
+version: "3.8"
+name: "umcu-api"
+
+volumes:
+  db_data:
+
+services:
+  db:
+    image: postgres:16-bookworm
+    # These environment variables must match the environment variables defined in the app service.
+    environment:
+      - POSTGRES_PASSWORD=ChangeMe
+      - POSTGRES_USER=umcu
+    expose:
+      - 5432
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  app:
+    # To use the app's precompiled image, comment out the build command (line 23).
+    image: seanodev/umcu-api
+    build: .
+    # These environment variables must match the environment variables defined in the db service.
+    environment:
+      - POSTGRES_PASSWORD=ChangeMe
+      - POSTGRES_USER=umcu
+    # Comment out the ports section if you are running behind a Nginx reverse proxy.
+    # To change the public facing port, change the number on the left (i.e., "80:8080" will allow connections on http://localhost).
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    depends_on:
+      - db
