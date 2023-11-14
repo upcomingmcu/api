@@ -30,28 +30,23 @@
 package app.umcu.api.controllers
 
 import app.umcu.api.models.Production
-import app.umcu.api.repositories.ProductionsRepository
-import org.springframework.data.domain.Sort
-import org.springframework.http.HttpStatus
+import app.umcu.api.repositories.ProductionsService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping(path = ["/productions", "/p"])
-class ProductionsController(val productionsRepository: ProductionsRepository) {
+class ProductionsController(val productionsService: ProductionsService) {
 
 	@GetMapping
-	fun findAllProductions(): Iterable<Production>? {
-		return productionsRepository.findAll(Sort.by(Sort.Direction.ASC, "releaseDate"))
+	fun findAllProductions(): MutableList<Production> {
+		return productionsService.findAllProductions()
 	}
 
 	@GetMapping("/{slug}")
 	fun findProductionBySlug(@PathVariable slug: String): Production? {
-		return productionsRepository.findById(slug).orElseThrow {
-			ResponseStatusException(HttpStatus.NOT_FOUND)
-		}
+		return productionsService.findProductionBySlug(slug)
 	}
 }
