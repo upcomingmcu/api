@@ -27,8 +27,20 @@ services:
       - POSTGRES_USER=umcu
     # Comment out the ports section if you are running behind a Nginx reverse proxy.
     # To change the public facing port, change the number on the left (i.e., "80:8080" will allow connections on http://localhost).
-    ports:
-      - "8080:8080"
+    #    ports:
+    #      - "8080:8080"
     restart: unless-stopped
     depends_on:
       - db
+
+  proxy:
+    image: nginx
+    # This defines which public port Nginx will be available on.
+    # If you want to connect to your app on a port other than 80, change the number on the left.
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro,Z
+    restart: unless-stopped
+    depends_on:
+      - app
