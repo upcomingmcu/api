@@ -59,7 +59,11 @@ class ProductionsConfig {
 					), Production(
 						tmdbId = 202555, title = "Daredevil: Born Again"
 					), Production(
+						tmdbId = 122226, title = "Echo", releaseDate = LocalDate.of(2024, 1, 10)
+					), Production(
 						tmdbId = 1003596, title = "Avengers: The Kang Dynasty", releaseDate = LocalDate.of(2026, 5, 1)
+					), Production(
+						tmdbId = 1003598, title = "Avengers: Secret Wars", releaseDate = LocalDate.of(2027, 5, 7)
 					)
 				)
 			)
