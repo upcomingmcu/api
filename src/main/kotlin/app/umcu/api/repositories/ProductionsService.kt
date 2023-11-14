@@ -5,6 +5,8 @@ import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
+import java.time.LocalDate
+import java.time.format.DateTimeParseException
 
 @Service
 class ProductionsService(val productionsRepository: ProductionsRepository) {
@@ -17,5 +19,18 @@ class ProductionsService(val productionsRepository: ProductionsRepository) {
 		return productionsRepository.findById(slug).orElseThrow {
 			ResponseStatusException(HttpStatus.NOT_FOUND)
 		}
+	}
+
+	fun findNextProduction(dateString: String? = null): Production? {
+		val localDate = if (dateString.isNullOrBlank()) {
+			LocalDate.now()
+		} else {
+			try {
+				LocalDate.parse(dateString)
+			} catch (e: DateTimeParseException) {
+				LocalDate.now()
+			}
+		}
+		return findAllProductions().firstOrNull { it.releaseDate?.isAfter(localDate) ?: false }
 	}
 }

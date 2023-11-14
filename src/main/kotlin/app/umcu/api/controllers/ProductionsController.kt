@@ -31,10 +31,14 @@ package app.umcu.api.controllers
 
 import app.umcu.api.models.Production
 import app.umcu.api.repositories.ProductionsService
+import jakarta.servlet.http.HttpServletResponse
+import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.ResponseStatusException
 
 @RestController
 @RequestMapping(path = ["/productions", "/p"])
@@ -48,5 +52,14 @@ class ProductionsController(val productionsService: ProductionsService) {
 	@GetMapping("/{slug}")
 	fun findProductionBySlug(@PathVariable slug: String): Production? {
 		return productionsService.findProductionBySlug(slug)
+	}
+
+	@GetMapping("/next")
+	fun findNextProduction(
+		@RequestParam(required = false) date: String? = null,
+		httpServletResponse: HttpServletResponse
+	) {
+		val next = productionsService.findNextProduction(date) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+		return httpServletResponse.sendRedirect("/productions/${next.slug}")
 	}
 }
