@@ -1,0 +1,42 @@
+# ========================================
+# This Docker Compose configuration should only be used
+#   while developing on your local machine.
+# In production, it is highly recommended you use a reverse proxy to
+#   not directly expose the application on port 80/443.
+#
+# You can start the Docker container using:
+#   docker compose -f compose-dev.yaml up -d
+# ========================================
+
+version: "3.8"
+name: "umcu-api-dev"
+
+volumes:
+  db_data:
+
+services:
+  db:
+    image: postgres:16-bookworm
+    # These environment variables must match the environment variables defined in the app service.
+    environment:
+      - POSTGRES_PASSWORD=ChangeMe
+      - POSTGRES_USER=umcu
+    expose:
+      - 5432
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  app:
+    # To use the app's precompiled image, comment out the build section.
+    image: seanodev/umcu-api
+    build: .
+    # These environment variables must match the environment variables defined in the db service.
+    environment:
+      - POSTGRES_PASSWORD=ChangeMe
+      - POSTGRES_USER=umcu
+    ports:
+      - "80:8080"
+    restart: unless-stopped
+    depends_on:
+      - db
