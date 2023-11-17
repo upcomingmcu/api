@@ -25,22 +25,24 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-package app.umcu.api.models
+@file:Suppress("unused")
 
-import app.umcu.api.extensions.toSlug
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
-import jakarta.persistence.UniqueConstraint
-import java.time.LocalDate
+package app.umcu.api.features.error
 
-@Suppress("unused")
-@Entity
-@Table(name = "productions", uniqueConstraints = [UniqueConstraint(columnNames = ["slug"])])
-data class Production(
-	@Column(nullable = false) var tmdbId: Int? = null,
-	@Column(nullable = false) var title: String? = null,
-	@Column(nullable = true) var releaseDate: LocalDate? = null,
-	@Id @Column(nullable = false) val slug: String? = title?.toSlug()
-)
+import jakarta.servlet.http.HttpServletRequest
+import jakarta.servlet.http.HttpServletResponse
+import org.springframework.boot.web.servlet.error.ErrorController
+import org.springframework.http.HttpStatus
+import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.ResponseBody
+
+@Controller
+class ErrorHandlerController : ErrorController {
+
+	@RequestMapping("/error")
+	@ResponseBody
+	fun error(request: HttpServletRequest, response: HttpServletResponse): Error {
+		return Error(HttpStatus.valueOf(response.status))
+	}
+}

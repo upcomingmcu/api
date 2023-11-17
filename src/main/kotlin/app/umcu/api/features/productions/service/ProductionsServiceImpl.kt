@@ -1,6 +1,7 @@
-package app.umcu.api.repositories
+package app.umcu.api.features.productions.service
 
-import app.umcu.api.models.Production
+import app.umcu.api.features.productions.model.Production
+import app.umcu.api.features.productions.repository.ProductionsRepository
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -9,19 +10,19 @@ import java.time.LocalDate
 import java.time.format.DateTimeParseException
 
 @Service
-class ProductionsService(val productionsRepository: ProductionsRepository) {
+class ProductionsServiceImpl(val productionsRepository: ProductionsRepository) : ProductionsService {
 
-	fun findAllProductions(): MutableList<Production> {
+	override fun findAllProductions(): List<Production> {
 		return productionsRepository.findAll(Sort.by(Sort.Direction.ASC, "releaseDate"))
 	}
 
-	fun findProductionBySlug(slug: String): Production? {
+	override fun findProductionBySlug(slug: String): Production? {
 		return productionsRepository.findById(slug).orElseThrow {
 			ResponseStatusException(HttpStatus.NOT_FOUND)
 		}
 	}
 
-	fun findNextProduction(dateString: String? = null): Production? {
+	override fun findNextProduction(dateString: String?): Production? {
 		val localDate = if (dateString.isNullOrBlank()) {
 			LocalDate.now()
 		} else {

@@ -25,11 +25,12 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-package app.umcu.api.repositories
+package app.umcu.api.features.error
 
-import app.umcu.api.models.Production
-import org.springframework.data.jpa.repository.JpaRepository
-import org.springframework.stereotype.Repository
+import org.springframework.http.HttpStatus
 
-@Repository
-interface ProductionsRepository : JpaRepository<Production, String> {}
+data class Error(
+	val status: Int, val reason: String
+) {
+	constructor(status: HttpStatus) : this(status.value(), status.reasonPhrase)
+}
