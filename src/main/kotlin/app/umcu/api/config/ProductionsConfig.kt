@@ -29,8 +29,8 @@
 
 package app.umcu.api.config
 
-import app.umcu.api.models.Production
-import app.umcu.api.repositories.ProductionsRepository
+import app.umcu.api.features.productions.model.Production
+import app.umcu.api.features.productions.repository.ProductionsRepository
 import org.springframework.boot.CommandLineRunner
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
