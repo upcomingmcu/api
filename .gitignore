@@ -27,4 +27,6 @@ out/
 
 ### Custom ###
 .env
+.env.dev
+.env.prod
 db_data/

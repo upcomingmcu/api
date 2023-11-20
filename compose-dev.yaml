@@ -37,6 +37,8 @@ services:
       - POSTGRES_USER=umcu
     ports:
       - "8080:8080"
+    env_file:
+      - .env.dev
     restart: unless-stopped
     depends_on:
       - db
