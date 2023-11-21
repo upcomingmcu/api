@@ -18,7 +18,9 @@ data class TMDBListDetails(
 	val id: String,
 	@JsonProperty("iso_639_1") val iso6391: String?,
 	@JsonProperty("item_count") val itemCount: Int?,
-	val items: List<TMDBListItem>
+	val items: List<TMDBListItem>,
+	val page: Int?,
+	@JsonProperty("total_pages") val totalPages: Int?
 )
 //endregion
 
