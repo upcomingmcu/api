@@ -19,7 +19,7 @@ class TMDBService(
 	private val apiToken: String = System.getenv()["TMDB_READ_ACCESS_TOKEN"] ?: ""
 	private val logger: Logger = LoggerFactory.getLogger(TMDBService::class.java)
 
-	private fun <T : Any> get(@Suppress("SameParameterValue") url: String): T? {
+	private inline fun <reified T : Any> get(@Suppress("SameParameterValue") url: String): T? {
 		val headers = HttpHeaders()
 		headers.setBearerAuth(apiToken)
 		val response: ResponseEntity<T> = restTemplate.exchange(
