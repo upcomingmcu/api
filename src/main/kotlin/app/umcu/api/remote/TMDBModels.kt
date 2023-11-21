@@ -53,7 +53,7 @@ data class TMDBMovieReleaseDates(
 //endregion
 
 //region TV
-data class TVSeasonDetails(
+data class TMDBTVSeasonDetails(
 	@JsonProperty("air_date") val airDate: String?,
 	val name: String?,
 	val overview: String?,
@@ -62,7 +62,7 @@ data class TVSeasonDetails(
 	@JsonProperty("season_number") val seasonNumber: Int?
 )
 
-data class TVSeriesDetails(
+data class TMDBTVSeriesDetails(
 	@JsonProperty("first_air_date") val firstAirDate: String?,
 	val homepage: String?,
 	val id: Int,
@@ -71,6 +71,6 @@ data class TVSeriesDetails(
 	@JsonProperty("number_of_seasons") val numberOfSeasons: Int?,
 	val overview: String?,
 	@JsonProperty("poster_path") val posterPath: String?,
-	val seasons: List<TVSeasonDetails>
+	val seasons: List<TMDBTVSeasonDetails>
 )
 //endregion
