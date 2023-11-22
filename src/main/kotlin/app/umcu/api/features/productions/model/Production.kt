@@ -28,11 +28,7 @@
 package app.umcu.api.features.productions.model
 
 import app.umcu.api.extensions.toSlug
-import jakarta.persistence.Column
-import jakarta.persistence.Entity
-import jakarta.persistence.Id
-import jakarta.persistence.Table
-import jakarta.persistence.UniqueConstraint
+import jakarta.persistence.*
 import java.time.LocalDate
 
 @Suppress("unused")
@@ -41,6 +37,8 @@ import java.time.LocalDate
 data class Production(
 	@Column(nullable = false) var tmdbId: Int? = null,
 	@Column(nullable = false) var title: String? = null,
+	@Column(nullable = true) var overview: String? = null,
 	@Column(nullable = true) var releaseDate: LocalDate? = null,
+	@Column(nullable = true) var poster: String? = null,
 	@Id @Column(nullable = false) val slug: String? = title?.toSlug()
 )
