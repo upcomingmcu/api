@@ -31,31 +31,50 @@ package app.umcu.api.features.productions.controller
 
 import app.umcu.api.features.productions.model.Production
 import app.umcu.api.features.productions.service.ProductionsService
+import com.sletmoe.bucket4k.SuspendingBucket
+import io.github.bucket4j.Bandwidth
 import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
+import kotlin.time.Duration.Companion.minutes
+import kotlin.time.toJavaDuration
 
 @RestController
 @RequestMapping(path = ["/productions", "/p"], method = [RequestMethod.GET])
 class ProductionsController(val productionsService: ProductionsService) {
+	private val bucket = SuspendingBucket.build {
+		addLimit(Bandwidth.simple(60, 1.minutes.toJavaDuration()))
+	}
 
 	@GetMapping
 	fun findAllProductions(): List<Production> {
-		return productionsService.findAllProductions()
+		if (bucket.tryConsume(1)) {
+			return productionsService.findAllProductions()
+		} else {
+			throw ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS)
+		}
 	}
 
 	@GetMapping("/{slug}")
 	fun findProductionBySlug(@PathVariable slug: String): Production? {
-		return productionsService.findProductionBySlug(slug)
+		if (bucket.tryConsume(1)) {
+			return productionsService.findProductionBySlug(slug)
+		} else {
+			throw ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS)
+		}
 	}
 
 	@GetMapping("/next")
 	fun findNextProduction(
-		@RequestParam(required = false) date: String? = null,
-		httpServletResponse: HttpServletResponse
+		@RequestParam(required = false) date: String? = null, httpServletResponse: HttpServletResponse
 	) {
-		val next = productionsService.findNextProduction(date) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
-		return httpServletResponse.sendRedirect("/productions/${next.slug}")
+		if (bucket.tryConsume(1)) {
+			val next =
+				productionsService.findNextProduction(date) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
+			return httpServletResponse.sendRedirect("/productions/${next.slug}")
+		} else {
+			throw ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS)
+		}
 	}
 }
