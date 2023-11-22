@@ -36,8 +36,8 @@ import java.time.LocalDate
 @Table(name = "productions", uniqueConstraints = [UniqueConstraint(columnNames = ["slug"])])
 data class Production(
 	@Column(nullable = false) var tmdbId: Int? = null,
-	@Column(nullable = false) var title: String? = null,
-	@Column(nullable = true) var overview: String? = null,
+	@Column(columnDefinition = "TEXT", nullable = false) var title: String? = null,
+	@Column(columnDefinition = "TEXT", nullable = true) var overview: String? = null,
 	@Column(nullable = true) var releaseDate: LocalDate? = null,
 	@Column(nullable = true) var poster: String? = null,
 	@Id @Column(nullable = false) val slug: String? = title?.toSlug()
