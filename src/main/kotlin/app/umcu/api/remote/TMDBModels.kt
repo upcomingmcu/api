@@ -67,7 +67,8 @@ enum class ReleaseType(@JsonValue val value: Int) {
 }
 
 data class TMDBMovieReleaseDatesItem(
-	@JsonProperty("iso_3166_1") val iso31661: String?, @JsonProperty("release_date") val releaseDates: List<ReleaseDate>
+	@JsonProperty("iso_3166_1") val iso31661: String?,
+	@JsonProperty("release_dates") val releaseDates: List<ReleaseDate>
 ) {
 	data class ReleaseDate(
 		val certification: String?, @JsonProperty("release_date") val releaseDate: String?, val type: ReleaseType?
