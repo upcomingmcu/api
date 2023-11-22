@@ -25,6 +25,8 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
+@file:Suppress("SpellCheckingInspection", "unused")
+
 package app.umcu.api.remote
 
 import app.umcu.api.features.productions.model.Production
@@ -43,7 +45,6 @@ import org.springframework.web.client.RestTemplate
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 
-@Suppress("unused")
 @Component
 class TMDBService(
 	private val restTemplate: RestTemplate = RestTemplate(), private val productionsRepository: ProductionsRepository
@@ -55,28 +56,28 @@ class TMDBService(
 	private inline fun <reified T : Any> get(url: String): T? {
 		val headers = HttpHeaders()
 		headers.setBearerAuth(apiToken)
-		val response: ResponseEntity<T> = restTemplate.exchange(
-			url,
+		val response: ResponseEntity<T> = restTemplate.exchange(url,
 			HttpMethod.GET,
 			HttpEntity("body", headers),
 			object : ParameterizedTypeReference<T>() {})
 		return response.body
 	}
 
-	private inline fun <reified T : Any> getTmdb(endpoint: String): T? {
+	private inline fun <reified T : Any> getFromTMDB(endpoint: String): T? {
 		val url = "https://api.themoviedb.org/3/$endpoint"
 		logger.info("GET $url")
 		return get<T>(url)
 	}
 
-	private fun parseDate(dateString: String?): LocalDate? {
+	private fun parseDate(dateString: String?, longForm: Boolean = false): LocalDate? {
+		val pattern = if (longForm) "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'" else "yyyy-MM-dd"
 		return dateString?.takeIf { it.isNotEmpty() }?.let {
-			return LocalDate.parse(it, DateTimeFormatter.ofPattern("yyyy-MM-dd"))
+			return LocalDate.parse(it, DateTimeFormatter.ofPattern(pattern))
 		}
 	}
 
 	private fun getListDetails(@Suppress("SameParameterValue") listId: Int, page: Int = 1): TMDBListDetails? {
-		return getTmdb<TMDBListDetails>("list/$listId?page=$page")
+		return getFromTMDB<TMDBListDetails>("list/$listId?page=$page")
 	}
 
 	private fun getListItems(): ArrayList<TMDBListItem>? {
@@ -91,11 +92,27 @@ class TMDBService(
 	}
 
 	private fun getMovieDetails(movieId: Int): TMDBMovieDetails? {
-		return getTmdb<TMDBMovieDetails>("movie/${movieId}")
+		return getFromTMDB<TMDBMovieDetails>("movie/$movieId")
+	}
+
+	private fun getMovieReleaseDates(movieId: Int): TMDBMovieReleaseDates? {
+		return getFromTMDB<TMDBMovieReleaseDates>("movie/$movieId/release_dates")
 	}
 
 	private fun getSeriesDetails(seriesId: Int): TMDBTVSeriesDetails? {
-		return getTmdb<TMDBTVSeriesDetails>("tv/${seriesId}")
+		return getFromTMDB<TMDBTVSeriesDetails>("tv/$seriesId")
+	}
+
+	private fun getReleaseDateByRegion(movieDetails: TMDBMovieDetails, iso31661: String = "US"): String? {
+		val movieReleaseDates = getMovieReleaseDates(movieDetails.id) ?: return null
+		val releaseDates =
+			movieReleaseDates.results.firstOrNull { it.iso31661 == iso31661 }!!.releaseDates.firstOrNull { it.type == ReleaseType.Theatrical }
+				?: return null
+		return releaseDates.releaseDate
+	}
+
+	private fun getPosterUrl(posterPath: String?): String? {
+		return if (posterPath.isNullOrEmpty()) null else "https://image.tmdb.org/t/p/original/${posterPath}"
 	}
 
 	private fun handleMovies(listItems: Iterable<TMDBListItem>): ArrayList<Production> {
@@ -103,10 +120,17 @@ class TMDBService(
 		listItems.filter { it.mediaType == MediaType.Movie }.forEach { item ->
 			val movieDetails = getMovieDetails(item.id)
 			if (movieDetails != null) {
+				val releaseDates = if (!movieDetails.releaseDate.isNullOrEmpty()) getReleaseDateByRegion(
+					movieDetails
+				) else null
+				val parsedReleaseDate = parseDate(releaseDates ?: movieDetails.releaseDate, releaseDates != null)
+
 				val production = Production(
 					tmdbId = movieDetails.id,
 					title = movieDetails.title,
-					releaseDate = parseDate(movieDetails.releaseDate)
+					overview = movieDetails.overview,
+					releaseDate = parsedReleaseDate,
+					poster = getPosterUrl(movieDetails.posterPath)
 				)
 				productions.add(production)
 			}
@@ -121,17 +145,29 @@ class TMDBService(
 			if (seriesDetails != null) {
 				if (seriesDetails.seasons.size > 1) {
 					seriesDetails.seasons.forEach { seasonDetails ->
+						val overview =
+							if (seasonDetails.overview.isNullOrEmpty()) seriesDetails.overview else seasonDetails.overview
+
 						val production = Production(
 							tmdbId = seriesDetails.id,
 							title = "${seriesDetails.name} Season ${seasonDetails.seasonNumber}",
-							releaseDate = parseDate(seasonDetails.airDate)
+							overview = overview,
+							releaseDate = parseDate(seasonDetails.airDate),
+							poster = getPosterUrl(seasonDetails.posterPath)
 						)
 						productions.add(production)
 					}
 				} else {
-					val season = seriesDetails.seasons.first()
+					val seasonDetails = seriesDetails.seasons.first()
+					val overview =
+						if (seasonDetails.overview.isNullOrEmpty()) seriesDetails.overview else seasonDetails.overview
+
 					val production = Production(
-						tmdbId = seriesDetails.id, title = seriesDetails.name, releaseDate = parseDate(season.airDate)
+						tmdbId = seriesDetails.id,
+						title = seriesDetails.name,
+						overview = overview,
+						releaseDate = parseDate(seasonDetails.airDate),
+						poster = getPosterUrl(seasonDetails.posterPath)
 					)
 					productions.add(production)
 				}
@@ -142,7 +178,6 @@ class TMDBService(
 
 	override fun run(args: ApplicationArguments?) {
 		val listItems = getListItems() ?: return
-
 		val productions: ArrayList<Production> = ArrayList()
 		handleMovies(listItems).let {
 			productions.addAll(it)
@@ -150,7 +185,6 @@ class TMDBService(
 		handleSeries(listItems).let {
 			productions.addAll(it)
 		}
-
 		productionsRepository.saveAll(productions)
 	}
 }
