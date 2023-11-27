@@ -27,6 +27,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("com.sletmoe.bucket4k:bucket4k:1.0.0")
+    implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.2.0")
     runtimeOnly("org.postgresql:postgresql")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
