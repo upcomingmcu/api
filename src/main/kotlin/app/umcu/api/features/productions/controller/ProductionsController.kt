@@ -54,6 +54,7 @@ import kotlin.time.toJavaDuration
 @RequestMapping(
 	path = ["/productions"], method = [RequestMethod.GET], produces = ["application/json"]
 )
+@CrossOrigin(origins = ["*"])
 class ProductionsController(val productionsService: ProductionsService) {
 	private val bucket = SuspendingBucket.build {
 		addLimit(Bandwidth.simple(60, 1.minutes.toJavaDuration()))
