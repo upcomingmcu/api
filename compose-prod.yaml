@@ -1,0 +1,71 @@
+#file: noinspection SpellCheckingInspection
+# ========================================
+# This Docker Compose configuration is production ready.
+# To get started, please look over this file carefully and modify
+#   any lines with an [Important] comment.
+# Additionally, make sure you review the "traefik.yml" file.
+#
+# You must obtain an API key from TMDB.
+#   Go to https://www.themoviedb.org/settings/api and retrieve the "API Read Access Token".
+#
+# You can start the Docker container using:
+#   docker compose -f compose-prod.yaml up -d
+# ========================================
+
+version: "3.8"
+name: "umcu-api"
+
+volumes:
+  db_data:
+
+services:
+  proxy:
+    image: traefik:2.10.5
+    environment:
+      - CLOUDFLARE_DNS_API_TOKEN=ChangeMe # [Important] See: https://go-acme.github.io/lego/dns/cloudflare/
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./traefik.yml:/etc/traefik/traefik.yml
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+  db:
+    image: postgres:16-bookworm
+    # These environment variables must match the environment variables defined in the app service.
+    environment:
+      - POSTGRES_PASSWORD=ChangeMe # [Important] Change this!
+      - POSTGRES_USER=umcu # [Important] Change this!
+    expose:
+      - 5432
+    volumes:
+      - ./db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    depends_on:
+      - proxy
+
+  app:
+    image: seanodev/umcu-api:v1.0
+    # These environment variables must match the environment variables defined in the db service.
+    environment:
+      - POSTGRES_PASSWORD=ChangeMe # [Important] Change this!
+      - POSTGRES_USER=umcu # [Important] Change this!
+      - TMDB_READ_ACCESS_TOKEN=${TMDB_READ_ACCESS_TOKEN} # [Important] Set the TMDB_READ_ACCESS_TOKEN environment variable on your system.
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.app.rule=Host(`app.localhost`)" # [Important] Change this to the domain you wish to use.
+      - "traefik.http.routers.app.entrypoints=web"
+      - "traefik.http.routers.app.middlewares=https_redirect"
+      - "traefik.http.routers.appsecure.rule=Host(`app.localhost`)" # [Important] Change this to the domain you wish to use.
+      - "traefik.http.routers.appsecure.entrypoints=websecure"
+      - "traefik.http.routers.appsecure.tls=true"
+      - "traefik.http.routers.appsecure.tls.certresolver=ssl_resolver"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.scheme=https"
+      - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
+    expose:
+      - 8080
+    restart: unless-stopped
+    depends_on:
+      - proxy
+      - db
