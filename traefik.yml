@@ -3,9 +3,9 @@ global:
   sendAnonymousUsage: true
 
 # [Important] Ensure this section is commented out in production.
-api:
-  dashboard: true
-  insecure: true
+#api:
+#  dashboard: true
+#  insecure: true
 
 providers:
   docker:
