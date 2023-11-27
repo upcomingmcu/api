@@ -62,8 +62,9 @@ services:
       - "traefik.http.middlewares.https_redirect.redirectscheme.permanent=true"
     expose:
       - 8080
-    env_file:
-      - .env.prod
+    # [Important] It is recommened you set environment variables on your system.
+    #    env_file:
+    #      - .env.prod
     restart: unless-stopped
     depends_on:
       - proxy
