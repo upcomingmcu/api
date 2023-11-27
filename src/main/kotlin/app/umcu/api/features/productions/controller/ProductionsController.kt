@@ -42,7 +42,6 @@ import io.swagger.v3.oas.annotations.media.Schema
 import io.swagger.v3.oas.annotations.responses.ApiResponse
 import io.swagger.v3.oas.annotations.responses.ApiResponses
 import io.swagger.v3.oas.annotations.tags.Tag
-import jakarta.servlet.http.HttpServletResponse
 import org.springframework.http.HttpStatus
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ResponseStatusException
@@ -133,12 +132,10 @@ class ProductionsController(val productionsService: ProductionsService) {
 			required = false,
 			description = "Find the next production after the date. In the format of \"YYYY-MM-DD\".",
 			example = "2008-05-02"
-		) @RequestParam(required = false) date: String? = null, httpServletResponse: HttpServletResponse
-	) {
+		) @RequestParam(required = false) date: String? = null
+	): Production? {
 		if (bucket.tryConsume(1)) {
-			val next =
-				productionsService.findNextProduction(date) ?: throw ResponseStatusException(HttpStatus.NOT_FOUND)
-			return httpServletResponse.sendRedirect("/productions/${next.slug}")
+			return productionsService.findNextProduction(date)
 		} else {
 			throw ResponseStatusException(HttpStatus.TOO_MANY_REQUESTS)
 		}
