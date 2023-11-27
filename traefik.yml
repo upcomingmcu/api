@@ -1,0 +1,26 @@
+global:
+  checkNewVersion: false
+  sendAnonymousUsage: true
+
+# [Important] Ensure this section is commented out in production.
+api:
+  dashboard: true
+  insecure: true
+
+providers:
+  docker:
+    exposedByDefault: false
+
+entryPoints:
+  web:
+    address: ":80"
+  websecure:
+    address: ":443"
+
+# See: https://doc.traefik.io/traefik/https/overview/
+certificatesResolvers:
+  ssl_resolver:
+    acme:
+      email: example@example.com # [Important] Change this to your own email.
+      dnsChallenge:
+        provider: cloudflare
