@@ -44,7 +44,6 @@ services:
 
   app:
     image: seanodev/umcu-api
-    build: .
     # These environment variables must match the environment variables defined in the db service.
     environment:
       - POSTGRES_PASSWORD=ChangeMe # [Important] Change this!
