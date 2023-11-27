@@ -27,9 +27,22 @@
 
 package app.umcu.api
 
+import io.swagger.v3.oas.annotations.OpenAPIDefinition
+import io.swagger.v3.oas.annotations.info.Contact
+import io.swagger.v3.oas.annotations.info.Info
+import io.swagger.v3.oas.annotations.info.License
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
+@OpenAPIDefinition(
+	info = Info(
+		title = "UMCU API",
+		version = "1.0",
+		summary = "The ultimate source for staying up-to-date with the MCU.",
+		contact = Contact(name = "UMCU", email = "api@umcu.app", url = "https://github.com/upcomingmcu"),
+		license = License(name = "Unlicense", url = "https://choosealicense.com/licenses/unlicense/")
+	)
+)
 @SpringBootApplication
 class ApiApplication
 
