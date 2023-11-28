@@ -130,6 +130,7 @@ class TMDBService(
 					title = movieDetails.title,
 					overview = movieDetails.overview,
 					releaseDate = parsedReleaseDate,
+					mediaType = Production.MediaType.MOVIE,
 					poster = getPosterUrl(movieDetails.posterPath)
 				)
 				productions.add(production)
@@ -153,6 +154,7 @@ class TMDBService(
 							title = "${seriesDetails.name} Season ${seasonDetails.seasonNumber}",
 							overview = overview,
 							releaseDate = parseDate(seasonDetails.airDate),
+							mediaType = Production.MediaType.TV,
 							poster = getPosterUrl(seasonDetails.posterPath)
 						)
 						productions.add(production)
@@ -167,6 +169,7 @@ class TMDBService(
 						title = seriesDetails.name,
 						overview = overview,
 						releaseDate = parseDate(seasonDetails.airDate),
+						mediaType = Production.MediaType.TV,
 						poster = getPosterUrl(seasonDetails.posterPath)
 					)
 					productions.add(production)

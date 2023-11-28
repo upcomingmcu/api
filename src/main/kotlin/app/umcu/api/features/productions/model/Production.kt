@@ -40,5 +40,10 @@ data class Production(
 	@Column(columnDefinition = "TEXT", nullable = true) var overview: String? = null,
 	@Column(nullable = true) var releaseDate: LocalDate? = null,
 	@Column(nullable = true) var poster: String? = null,
+	@Column(nullable = true) var mediaType: MediaType? = null,
 	@Id @Column(nullable = false) val slug: String? = title?.toSlug()
-)
+) {
+	enum class MediaType {
+		MOVIE, TV
+	}
+}
