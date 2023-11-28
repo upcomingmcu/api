@@ -4,6 +4,17 @@
 
 [![Java CI with Gradle](https://github.com/upcomingmcu/api/actions/workflows/gradle.yml/badge.svg?branch=dev)](https://github.com/upcomingmcu/api/actions/workflows/gradle.yml) [![Docker Image CI](https://github.com/upcomingmcu/api/actions/workflows/docker-image.yml/badge.svg)](https://github.com/upcomingmcu/api/actions/workflows/docker-image.yml)
 
+# About
+
+"UMCU API" or "Upcoming MCU API" is a lightweight, standalone REST API to retrieve information about all past and future
+productions within
+the [Marvel Cinematic Universe (MCU)](https://en.wikipedia.org/wiki/Marvel_Cinematic_Universe).
+
+This repo contains the entire source code for the API as well as instructions on how to host it yourself through Docker.
+The official instance is located at https://api.umcu.app.
+
+For documentation, visit https://api.umcu.app/swagger-ui/index.html.
+
 # Installation
 
 The recommended (and easiest) way to run this API is through Docker.
