@@ -59,6 +59,10 @@ class ProductionsServiceImpl(val productionsRepository: ProductionsRepository) :
 				LocalDate.now()
 			}
 		}
-		return findAllProductions().firstOrNull { it.releaseDate?.isAfter(localDate) ?: false }
+		return findAllProductions().firstOrNull() {
+			it.releaseDate?.isAfter(localDate) ?: throw ResponseStatusException(
+				HttpStatus.NOT_FOUND
+			)
+		}
 	}
 }
