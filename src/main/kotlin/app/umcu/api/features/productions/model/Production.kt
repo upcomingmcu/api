@@ -28,12 +28,15 @@
 package app.umcu.api.features.productions.model
 
 import app.umcu.api.extensions.toSlug
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
+import com.fasterxml.jackson.databind.annotation.JsonNaming
 import jakarta.persistence.*
 import java.time.LocalDate
 
 @Suppress("unused")
 @Entity
 @Table(name = "productions", uniqueConstraints = [UniqueConstraint(columnNames = ["slug"])])
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class Production(
 	@Column(nullable = false) var tmdbId: Int? = null,
 	@Column(columnDefinition = "TEXT", nullable = false) var title: String? = null,

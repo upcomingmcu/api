@@ -27,8 +27,11 @@
 
 package app.umcu.api.features.error
 
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
+import com.fasterxml.jackson.databind.annotation.JsonNaming
 import org.springframework.http.HttpStatus
 
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
 data class Error(
 	val status: Int, val reason: String
 ) {
