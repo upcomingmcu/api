@@ -28,8 +28,6 @@ services:
     restart: unless-stopped
 
   app:
-    # To use the app's precompiled image, comment out the build section.
-    image: seanodev/umcu-api
     build: .
     # These environment variables must match the environment variables defined in the db service.
     environment:
