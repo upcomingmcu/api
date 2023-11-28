@@ -46,7 +46,7 @@ services:
       - proxy
 
   app:
-    image: seanodev/umcu-api:v1.0
+    image: seanodev/umcu-api
     # These environment variables must match the environment variables defined in the db service.
     environment:
       - POSTGRES_PASSWORD=ChangeMe # [Important] Change this!
