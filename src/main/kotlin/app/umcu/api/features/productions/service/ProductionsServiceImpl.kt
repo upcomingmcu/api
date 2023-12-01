@@ -29,6 +29,7 @@ package app.umcu.api.features.productions.service
 
 import app.umcu.api.features.productions.model.Production
 import app.umcu.api.features.productions.repository.ProductionsRepository
+import app.umcu.api.utils.DateParsingUtils
 import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
@@ -38,6 +39,7 @@ import java.time.format.DateTimeParseException
 
 @Service
 class ProductionsServiceImpl(val productionsRepository: ProductionsRepository) : ProductionsService {
+	private val dateParsingUtils = DateParsingUtils()
 
 	override fun findAllProductions(): List<Production> {
 		return productionsRepository.findAll(Sort.by(Sort.Direction.ASC, "releaseDate"))
@@ -54,7 +56,7 @@ class ProductionsServiceImpl(val productionsRepository: ProductionsRepository) :
 			LocalDate.now()
 		} else {
 			try {
-				LocalDate.parse(dateString)
+				dateParsingUtils.parseLocalDate(dateString)
 			} catch (e: DateTimeParseException) {
 				LocalDate.now()
 			}
