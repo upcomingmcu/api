@@ -34,8 +34,7 @@ import org.springframework.data.domain.Sort
 import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 import org.springframework.web.server.ResponseStatusException
-import java.time.LocalDate
-import java.time.format.DateTimeParseException
+import java.time.ZonedDateTime
 
 @Service
 class ProductionsServiceImpl(val productionsRepository: ProductionsRepository) : ProductionsService {
@@ -52,17 +51,13 @@ class ProductionsServiceImpl(val productionsRepository: ProductionsRepository) :
 	}
 
 	override fun findNextProduction(dateString: String?): Production? {
-		val localDate = if (dateString.isNullOrBlank()) {
-			LocalDate.now()
+		val zonedDateTime = if (dateString.isNullOrBlank()) {
+			ZonedDateTime.now()
 		} else {
-			try {
-				dateParsingUtils.parseLocalDate(dateString)
-			} catch (e: DateTimeParseException) {
-				LocalDate.now()
-			}
+			dateParsingUtils.parseZonedDateTime(dateString) ?: ZonedDateTime.now()
 		}
 		return findAllProductions().firstOrNull() {
-			it.releaseDate?.isAfter(localDate) ?: throw ResponseStatusException(
+			it.releaseDate?.isAfter(zonedDateTime) ?: throw ResponseStatusException(
 				HttpStatus.NOT_FOUND
 			)
 		}

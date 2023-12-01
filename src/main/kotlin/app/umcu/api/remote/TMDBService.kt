@@ -57,7 +57,7 @@ class TMDBService(
 			val releaseDates = if (!movieDetails.releaseDate.isNullOrEmpty()) tmdbWrapper.getReleaseDateByRegion(
 				movieDetails
 			) else null
-			val parsedReleaseDate = dateParsingUtils.parseLocalDate(releaseDates ?: movieDetails.releaseDate)
+			val parsedReleaseDate = dateParsingUtils.parseZonedDateTime(releaseDates ?: movieDetails.releaseDate)
 
 			productions.add(
 				Production(
@@ -90,7 +90,7 @@ class TMDBService(
 							tmdbId = seriesDetails.id,
 							title = "${seriesDetails.name} Season ${seasonDetails.seasonNumber}",
 							overview = overview,
-							releaseDate = dateParsingUtils.parseLocalDate(seasonDetails.airDate),
+							releaseDate = dateParsingUtils.parseZonedDateTime(seasonDetails.airDate),
 							mediaType = Production.MediaType.TV,
 							poster = tmdbWrapper.getPosterUrl(seasonDetails.posterPath)
 						)
@@ -106,7 +106,7 @@ class TMDBService(
 						tmdbId = seriesDetails.id,
 						title = seriesDetails.name,
 						overview = overview,
-						releaseDate = dateParsingUtils.parseLocalDate(seasonDetails.airDate),
+						releaseDate = dateParsingUtils.parseZonedDateTime(seasonDetails.airDate),
 						mediaType = Production.MediaType.TV,
 						poster = tmdbWrapper.getPosterUrl(seasonDetails.posterPath)
 					)

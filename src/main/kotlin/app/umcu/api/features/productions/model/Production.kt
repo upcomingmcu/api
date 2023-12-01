@@ -31,7 +31,7 @@ import app.umcu.api.extensions.toSlug
 import com.fasterxml.jackson.databind.PropertyNamingStrategies
 import com.fasterxml.jackson.databind.annotation.JsonNaming
 import jakarta.persistence.*
-import java.time.LocalDate
+import java.time.ZonedDateTime
 
 @Suppress("unused")
 @Entity
@@ -41,7 +41,7 @@ data class Production(
 	@Column(nullable = false) var tmdbId: Int? = null,
 	@Column(columnDefinition = "TEXT", nullable = false) var title: String? = null,
 	@Column(columnDefinition = "TEXT", nullable = true) var overview: String? = null,
-	@Column(nullable = true) var releaseDate: LocalDate? = null,
+	@Column(nullable = true) var releaseDate: ZonedDateTime? = null,
 	@Column(nullable = true) var poster: String? = null,
 	@Column(nullable = true) @Enumerated(EnumType.STRING) var mediaType: MediaType? = null,
 	@Id @Column(nullable = false) val slug: String? = title?.toSlug()
