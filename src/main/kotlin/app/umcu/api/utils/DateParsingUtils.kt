@@ -56,7 +56,7 @@ class DateParsingUtils {
 	 * ```
 	 */
 	fun trimDate(dateString: String?): String? {
-		if (dateString.isNullOrEmpty() || dateString.length < 9) return null
+		if (dateString.isNullOrEmpty() || dateString.length <= 9) return null
 		return dateString.slice(IntRange(0, 9))
 	}
 
