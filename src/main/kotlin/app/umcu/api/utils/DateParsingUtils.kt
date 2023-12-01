@@ -56,7 +56,7 @@ class DateParsingUtils {
 	 * ```
 	 */
 	fun trimDate(dateString: String?): String? {
-		if (dateString.isNullOrEmpty()) return null
+		if (dateString.isNullOrEmpty() || dateString.length < 9) return null
 		return dateString.slice(IntRange(0, 9))
 	}
 
@@ -71,9 +71,11 @@ class DateParsingUtils {
 	 */
 	fun parseLocalDate(dateString: String?): LocalDate? {
 		val trimmed = dateString?.let { trimDate(it) } ?: return null
-		return trimmed.takeIf { it.isNotEmpty() }?.let {
-			LocalDate.parse(it, DateTimeFormatter.ofPattern(shortDatePattern))
-		} ?: return null
+		return runCatching {
+			trimmed.takeIf { it.isNotEmpty() }?.let {
+				LocalDate.parse(it, DateTimeFormatter.ofPattern(shortDatePattern))
+			}
+		}.getOrNull()
 	}
 
 	/**
