@@ -25,13 +25,17 @@
  * For more information, please refer to <https://unlicense.org>
  */
 
-package app.umcu.api.features.productions.service
+package app.umcu.api.features.productions.model
 
-import app.umcu.api.features.productions.model.NextProduction
-import app.umcu.api.features.productions.model.Production
+import java.time.ZonedDateTime
 
-interface ProductionsService {
-	fun findAllProductions(): List<Production>
-	fun findProductionBySlug(slug: String): Production?
-	fun findNextProduction(dateString: String? = null): NextProduction?
-}
+data class NextProduction(
+	override var tmdbId: Int?,
+	override var title: String?,
+	override var overview: String?,
+	override var releaseDate: ZonedDateTime?,
+	override var poster: String?,
+	override var mediaType: ProductionMediaType?,
+	override var slug: String?,
+	var nextProduction: String?,
+) : IProduction

@@ -29,6 +29,7 @@
 
 package app.umcu.api.features.productions.service
 
+import app.umcu.api.features.productions.model.NextProduction
 import app.umcu.api.features.productions.model.Production
 import app.umcu.api.features.productions.repository.ProductionsRepository
 import app.umcu.api.utils.DateParsingUtils
@@ -52,16 +53,32 @@ class ProductionsServiceImpl(val productionsRepository: ProductionsRepository) :
 		}
 	}
 
-	override fun findNextProduction(dateString: String?): Production? {
+	override fun findNextProduction(dateString: String?): NextProduction? {
 		val zonedDateTime = if (dateString.isNullOrBlank()) {
 			ZonedDateTime.now()
 		} else {
 			dateParsingUtils.parseZonedDateTime(dateString) ?: ZonedDateTime.now()
 		}
-		return findAllProductions().firstOrNull() {
+
+		val allProductions = findAllProductions()
+		val nextProduction = allProductions.firstOrNull {
 			it.releaseDate?.isAfter(zonedDateTime) ?: throw ResponseStatusException(
 				HttpStatus.NOT_FOUND
 			)
-		}
+		} ?: return null
+		val followingProduction =
+			allProductions.firstOrNull { it.releaseDate?.isAfter(nextProduction.releaseDate) == true }
+				.takeIf { it != null }?.slug
+
+		return NextProduction(
+			nextProduction.tmdbId,
+			nextProduction.title,
+			nextProduction.overview,
+			nextProduction.releaseDate,
+			nextProduction.poster,
+			nextProduction.mediaType,
+			nextProduction.slug,
+			followingProduction
+		)
 	}
 }
