@@ -30,6 +30,7 @@
 package app.umcu.api.features.productions.controller
 
 import app.umcu.api.features.error.Error
+import app.umcu.api.features.productions.model.NextProduction
 import app.umcu.api.features.productions.model.Production
 import app.umcu.api.features.productions.service.ProductionsService
 import com.sletmoe.bucket4k.SuspendingBucket
@@ -115,7 +116,7 @@ class ProductionsController(val productionsService: ProductionsService) {
 	@ApiResponses(
 		value = [ApiResponse(
 			responseCode = "200", description = "Upcoming production found.", content = [Content(
-				mediaType = "application/json", schema = Schema(implementation = Production::class)
+				mediaType = "application/json", schema = Schema(implementation = NextProduction::class)
 			)]
 		), ApiResponse(
 			responseCode = "404", description = "No further productions.", content = [Content(
@@ -134,7 +135,7 @@ class ProductionsController(val productionsService: ProductionsService) {
 			description = "Find the next production after the date. In the format of \"YYYY-MM-DD\".",
 			example = "2008-05-02"
 		) @RequestParam(required = false) date: String? = null
-	): Production? {
+	): NextProduction? {
 		if (bucket.tryConsume(1)) {
 			return productionsService.findNextProduction(date)
 		} else {

@@ -30,6 +30,7 @@
 package app.umcu.api.remote
 
 import app.umcu.api.features.productions.model.Production
+import app.umcu.api.features.productions.model.ProductionMediaType
 import app.umcu.api.features.productions.repository.ProductionsRepository
 import app.umcu.api.utils.DateParsingUtils
 import org.slf4j.Logger
@@ -65,7 +66,7 @@ class TMDBService(
 					title = movieDetails.title,
 					overview = movieDetails.overview,
 					releaseDate = parsedReleaseDate,
-					mediaType = Production.MediaType.MOVIE,
+					mediaType = ProductionMediaType.MOVIE,
 					poster = tmdbWrapper.getPosterUrl(movieDetails.posterPath)
 				)
 			)
@@ -91,7 +92,7 @@ class TMDBService(
 							title = "${seriesDetails.name} Season ${seasonDetails.seasonNumber}",
 							overview = overview,
 							releaseDate = dateParsingUtils.parseZonedDateTime(seasonDetails.airDate),
-							mediaType = Production.MediaType.TV,
+							mediaType = ProductionMediaType.TV,
 							poster = tmdbWrapper.getPosterUrl(seasonDetails.posterPath)
 						)
 					)
@@ -107,7 +108,7 @@ class TMDBService(
 						title = seriesDetails.name,
 						overview = overview,
 						releaseDate = dateParsingUtils.parseZonedDateTime(seasonDetails.airDate),
-						mediaType = Production.MediaType.TV,
+						mediaType = ProductionMediaType.TV,
 						poster = tmdbWrapper.getPosterUrl(seasonDetails.posterPath)
 					)
 				)

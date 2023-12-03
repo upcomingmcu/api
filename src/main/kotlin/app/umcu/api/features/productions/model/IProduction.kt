@@ -27,19 +27,17 @@
 
 package app.umcu.api.features.productions.model
 
-import app.umcu.api.extensions.toSlug
-import jakarta.persistence.*
+import com.fasterxml.jackson.databind.PropertyNamingStrategies
+import com.fasterxml.jackson.databind.annotation.JsonNaming
 import java.time.ZonedDateTime
 
-@Suppress("unused")
-@Entity
-@Table(name = "productions", uniqueConstraints = [UniqueConstraint(columnNames = ["slug"])])
-data class Production(
-	@Column(nullable = false) override var tmdbId: Int? = null,
-	@Column(columnDefinition = "TEXT", nullable = false) override var title: String? = null,
-	@Column(columnDefinition = "TEXT", nullable = true) override var overview: String? = null,
-	@Column(nullable = true) override var releaseDate: ZonedDateTime? = null,
-	@Column(nullable = true) override var poster: String? = null,
-	@Column(nullable = true) @Enumerated(EnumType.STRING) override var mediaType: ProductionMediaType? = null,
-	@Id @Column(nullable = false) override var slug: String? = title?.toSlug()
-) : IProduction
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy::class)
+interface IProduction {
+	var tmdbId: Int?
+	var title: String?
+	var overview: String?
+	var releaseDate: ZonedDateTime?
+	var poster: String?
+	var mediaType: ProductionMediaType?
+	var slug: String?
+}
