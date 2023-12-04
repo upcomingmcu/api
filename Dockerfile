@@ -8,7 +8,7 @@ COPY gradlew .
 COPY settings.gradle.kts .
 RUN gradle bootJar
 # Run the JAR
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 COPY --from=builder /builder/build/libs/umcu-api-1.0.jar app.jar
 CMD ["java","-jar","app.jar"]
