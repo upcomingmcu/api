@@ -1,0 +1,42 @@
+[versions]
+kotlin = "1.9.22"
+ktor = "2.3.7"
+logback = "1.4.14"
+h2 = "2.2.224"
+postgres = "42.5.1"
+exposed = "0.41.1"
+
+[libraries]
+ktor-server-core = { group = "io.ktor", name = "ktor-server-core-jvm", version.ref = "ktor" }
+ktor-server-content-negotiation = { group = "io.ktor", name = "ktor-server-content-negotiation-jvm", version.ref = "ktor" }
+ktor-server-call-logging = { group = "io.ktor", name = "ktor-server-call-logging-jvm", version.ref = "ktor" }
+ktor-server-forwarded-header = { group = "io.ktor", name = "ktor-server-forwarded-header-jvm", version.ref = "ktor" }
+ktor-server-openapi = { group = "io.ktor", name = "ktor-server-openapi", version.ref = "ktor" }
+ktor-server-caching-headers = { group = "io.ktor", name = "ktor-server-caching-headers-jvm", version.ref = "ktor" }
+ktor-server-conditional-headers = { group = "io.ktor", name = "ktor-server-conditional-headers-jvm", version.ref = "ktor" }
+ktor-server-cors = { group = "io.ktor", name = "ktor-server-cors-jvm", version.ref = "ktor" }
+ktor-server-host-common = { group = "io.ktor", name = "ktor-server-host-common-jvm", version.ref = "ktor" }
+ktor-server-status-pages = { group = "io.ktor", name = "ktor-server-status-pages-jvm", version.ref = "ktor" }
+ktor-server-resources = { group = "io.ktor", name = "ktor-server-resources", version.ref = "ktor" }
+ktor-server-netty = { group = "io.ktor", name = "ktor-server-netty-jvm", version.ref = "ktor" }
+ktor-server-config = { group = "io.ktor", name = "ktor-server-config-yaml", version.ref = "ktor" }
+ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
+logback = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
+h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
+postgresql = { group = "org.postgresql", name = "postgresql", version.ref = "postgres" }
+exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
+exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
+ktor-server-tests-jvm = { group = "io.ktor", name = "ktor-server-tests-jvm", version.ref = "ktor" }
+kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
+
+[bundles]
+ktor-server = ["ktor-server-core", "ktor-server-content-negotiation",
+    "ktor-server-call-logging", "ktor-server-forwarded-header", "ktor-server-openapi",
+    "ktor-server-caching-headers", "ktor-server-conditional-headers", "ktor-server-cors",
+    "ktor-server-host-common", "ktor-server-status-pages", "ktor-server-resources", "ktor-server-netty",
+    "ktor-server-config"]
+
+[plugins]
+kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
