@@ -14,6 +14,10 @@ application {
     applicationDefaultJvmArgs = listOf("-Dio.ktor.development=$isDevelopment")
 }
 
+kotlin {
+    jvmToolchain(17)
+}
+
 dependencies {
     implementation(libs.bundles.ktor.server)
     implementation(libs.ktor.serialization)
