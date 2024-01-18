@@ -5,6 +5,7 @@ logback = "1.4.14"
 h2 = "2.2.224"
 postgres = "42.5.1"
 exposed = "0.41.1"
+prometheus = "1.12.2"
 
 [libraries]
 ktor-server-core = { group = "io.ktor", name = "ktor-server-core-jvm", version.ref = "ktor" }
@@ -20,7 +21,9 @@ ktor-server-status-pages = { group = "io.ktor", name = "ktor-server-status-pages
 ktor-server-resources = { group = "io.ktor", name = "ktor-server-resources", version.ref = "ktor" }
 ktor-server-netty = { group = "io.ktor", name = "ktor-server-netty-jvm", version.ref = "ktor" }
 ktor-server-config = { group = "io.ktor", name = "ktor-server-config-yaml", version.ref = "ktor" }
+ktor-server-metrics-micrometer = { group = "io.ktor", name = "ktor-server-metrics-micrometer", version.ref = "ktor" }
 ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
+micrometer-registry-prometheus = { group = "io.micrometer", name = "micrometer-registry-prometheus", version.ref = "prometheus" }
 logback = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
 h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
 postgresql = { group = "org.postgresql", name = "postgresql", version.ref = "postgres" }
@@ -34,7 +37,7 @@ ktor-server = ["ktor-server-core", "ktor-server-content-negotiation",
     "ktor-server-call-logging", "ktor-server-forwarded-header", "ktor-server-openapi",
     "ktor-server-caching-headers", "ktor-server-conditional-headers", "ktor-server-cors",
     "ktor-server-host-common", "ktor-server-status-pages", "ktor-server-resources", "ktor-server-netty",
-    "ktor-server-config"]
+    "ktor-server-config", "ktor-server-metrics-micrometer"]
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
