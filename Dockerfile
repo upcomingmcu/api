@@ -17,6 +17,8 @@ RUN ./gradlew installDist
 # Run the application
 FROM gradle:8.4.0-jdk17
 
+ENV KTOR_DEVELOPMENT=false
+
 RUN useradd -rm -d /home/umcu -s /bin/bash -g root -G sudo -u 1001 umcu
 USER umcu
 WORKDIR /home/umcu/

@@ -5,7 +5,8 @@ import java.sql.Connection
 import java.sql.DriverManager
 
 fun Application.configureDatabases() {
-	val dbConnection: Connection = connectToPostgres(embedded = false)
+	val dbConnection: Connection =
+		connectToPostgres(environment.config.property("ktor.development").getString().toBoolean())
 }
 
 fun Application.connectToPostgres(embedded: Boolean): Connection {

@@ -1,4 +1,5 @@
 ktor:
+  development: "$KTOR_DEVELOPMENT:true"
   application:
     modules:
       - app.umcu.api.ApplicationKt.module
