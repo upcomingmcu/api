@@ -1,9 +1,34 @@
 version: '3'
 
+volumes:
+  pgdata:
+
 services:
+
+  db:
+    image: postgres:16.1-bookworm
+    # These values must match the corresponding values in the app service.
+    #   It is highly recommended you change the password and username.
+    environment:
+      - POSTGRES_PASSWORD=ChangeMe
+      - POSTGRES_USER=umcu
+      - POSTGRES_DB=umcu
+    expose:
+      - 5432
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
 
   app:
     build: .
+    # These values must match the corresponding values in the db service.
+    environment:
+      - POSTGRES_PASSWORD=ChangeMe
+      - POSTGRES_USER=umcu
+      - POSTGRES_DB=umcu
+    # Change the port on the left side to change the port used on your host machine.
     ports:
       - "8080:8080"
+    depends_on:
+      - db
     restart: unless-stopped
