@@ -7,8 +7,6 @@ import io.ktor.server.plugins.cachingheaders.*
 import io.ktor.server.plugins.conditionalheaders.*
 import io.ktor.server.plugins.cors.routing.*
 import io.ktor.server.plugins.forwardedheaders.*
-import io.ktor.server.plugins.openapi.*
-import io.ktor.server.routing.*
 
 fun Application.configureHTTP() {
 	install(ForwardedHeaders)
@@ -27,7 +25,7 @@ fun Application.configureHTTP() {
 		anyHost()
 	}
 
-	routing {
-		openAPI(path = "openapi")
-	}
+//	routing {
+//		openAPI(path = "openapi")
+//	}
 }
