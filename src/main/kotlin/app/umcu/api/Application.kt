@@ -12,6 +12,7 @@ fun Application.module() {
 	configureDatabases()
 	configureMonitoring()
 	configureHTTP()
+	configureRateLimit()
 	configureRouting()
 	configureMetrics()
 }

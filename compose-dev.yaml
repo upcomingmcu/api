@@ -51,6 +51,7 @@ services:
     build: .
     # These values must match the corresponding values in the db service.
     environment:
+      - RATE_LIMIT=100
       - POSTGRES_PASSWORD=ChangeMe
       - POSTGRES_USER=umcu
       - POSTGRES_DB=umcu

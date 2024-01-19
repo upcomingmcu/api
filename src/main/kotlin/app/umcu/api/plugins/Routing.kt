@@ -3,6 +3,7 @@ package app.umcu.api.plugins
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
+import io.ktor.server.plugins.ratelimit.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.resources.*
 import io.ktor.server.response.*
@@ -23,8 +24,10 @@ fun Application.configureRouting() {
 	install(Resources)
 
 	routing {
-		get("/ping") {
-			call.respond(HttpStatusCode.OK, HttpStatusCode.OK.toString())
+		rateLimit {
+			get("/ping") {
+				call.respond(HttpStatusCode.OK, HttpStatusCode.OK.toString())
+			}
 		}
 
 		staticResources("/static", "static")

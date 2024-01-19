@@ -3,6 +3,7 @@ ktor:
   application:
     modules:
       - app.umcu.api.ApplicationKt.module
+    rate_limit: "$RATE_LIMIT:100" # how many requests to the api per minute
   deployment:
     port: 8080
 postgres:
