@@ -1,7 +1,11 @@
 version: '3'
 
+networks:
+  umcunet:
+
 volumes:
   pgdata:
+  grafana:
 
 services:
 
@@ -15,8 +19,32 @@ services:
       - POSTGRES_DB=umcu
     expose:
       - 5432
+    networks:
+      - umcunet
     volumes:
       - ./pgdata:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus
+    expose:
+      - 9090
+    networks:
+      - umcunet
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - umcunet
+    volumes:
+      - ./grafana:/var/lib/grafana
+    depends_on:
+      - prometheus
     restart: unless-stopped
 
   app:
@@ -29,6 +57,9 @@ services:
     # Change the port on the left side to change the port used on your host machine.
     ports:
       - "8080:8080"
+    networks:
+      - umcunet
     depends_on:
       - db
+      - grafana
     restart: unless-stopped
