@@ -17,7 +17,7 @@ import java.net.URI
 fun Application.configureOpenApi() {
 	install(NotarizedApplication()) {
 		spec = OpenApiSpec(
-			openapi = "3.1.0", info = Info(
+			openapi = "3.0.0", info = Info(
 				"UpcomingMCU API",
 				"1.0.0",
 				"The ultimate source for staying up-to-date with the MCU.",
