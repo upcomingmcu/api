@@ -1,5 +1,6 @@
 package app.umcu.api.plugins
 
+import app.umcu.api.routes.productionsRoute
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.http.content.*
@@ -29,6 +30,8 @@ fun Application.configureRouting() {
 				call.respond(HttpStatusCode.OK, HttpStatusCode.OK.toString())
 			}
 		}
+
+		productionsRoute()
 
 		staticResources("/static", "static")
 	}
