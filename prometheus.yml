@@ -5,8 +5,11 @@ global:
 scrape_configs:
   - job_name: "ktor_umcu_api"
     metrics_path: /metrics
+    # Please change the username and password.
+    #   See: https://prometheus.io/docs/guides/basic-auth/
+    #   Default password is "ChangeMe"
     basic_auth:
       username: admin
-      password: $2a$12$YYVBH5DxuC3dScx.bsHHluiY8o1ixiDNi..wyp1G9zaQhy3/S1IrK # TODO change this!
+      password: $2a$12$YYVBH5DxuC3dScx.bsHHluiY8o1ixiDNi..wyp1G9zaQhy3/S1IrK
     static_configs:
       - targets: [ "host.docker.internal:8080" ]
