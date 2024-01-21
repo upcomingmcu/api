@@ -6,7 +6,9 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import io.micrometer.core.instrument.binder.jvm.JvmGcMetrics
 import io.micrometer.core.instrument.binder.jvm.JvmMemoryMetrics
+import io.micrometer.core.instrument.binder.logging.LogbackMetrics
 import io.micrometer.core.instrument.binder.system.ProcessorMetrics
+import io.micrometer.core.instrument.binder.system.UptimeMetrics
 import io.micrometer.prometheus.PrometheusConfig
 import io.micrometer.prometheus.PrometheusMeterRegistry
 
@@ -19,7 +21,7 @@ fun Application.configureMetrics() {
 			call.request.headers["regionId"]?.let { tag("region", it) }
 		}
 		meterBinders = listOf(
-			JvmMemoryMetrics(), JvmGcMetrics(), ProcessorMetrics()
+			JvmMemoryMetrics(), JvmGcMetrics(), ProcessorMetrics(), UptimeMetrics(), LogbackMetrics()
 		)
 	}
 
