@@ -24,4 +24,4 @@ USER umcu
 WORKDIR /home/umcu/
 
 COPY --from=build /home/builder/build build/
-CMD "./build/install/app.umcu.api/bin/app.umcu.api"
+CMD "./build/install/upcomingmcu-api/bin/upcomingmcu-api"

@@ -1,4 +1,4 @@
-rootProject.name = "app.umcu.api"
+rootProject.name = "upcomingmcu-api"
 
 dependencyResolutionManagement {
     @Suppress("UnstableApiUsage") repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
