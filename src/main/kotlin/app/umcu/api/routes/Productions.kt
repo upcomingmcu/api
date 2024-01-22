@@ -1,5 +1,6 @@
 package app.umcu.api.routes
 
+import app.umcu.api.data.ProductionsDAOFacadeImpl
 import app.umcu.api.models.Production
 import app.umcu.api.models.Response
 import io.bkbn.kompendium.core.metadata.GetInfo
@@ -10,6 +11,7 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
 import io.ktor.server.plugins.ratelimit.*
+import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.productionsRoute() {
@@ -20,7 +22,7 @@ fun Route.productionsRoute() {
 				allProductionsDoc()
 
 				get {
-					throw NotFoundException()
+					call.respond(Response(ProductionsDAOFacadeImpl().allProductions()))
 				}
 			}
 
@@ -29,7 +31,9 @@ fun Route.productionsRoute() {
 				productionBySlugDoc()
 
 				get {
-					throw NotFoundException()
+					val slug = call.parameters["slug"] ?: throw BadRequestException("Slug parameter is required.")
+					val data = ProductionsDAOFacadeImpl().productionBySlug(slug) ?: throw NotFoundException()
+					call.respond(Response(data))
 				}
 			}
 
