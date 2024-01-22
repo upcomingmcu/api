@@ -1,4 +1,4 @@
-package app.umcu.api.data
+package app.umcu.api.data.productions
 
 import kotlinx.datetime.Instant
 import org.jetbrains.exposed.dao.id.IntIdTable

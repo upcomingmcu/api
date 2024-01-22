@@ -1,4 +1,4 @@
-package app.umcu.api.data
+package app.umcu.api.data.productions
 
 import app.umcu.api.models.Production
 

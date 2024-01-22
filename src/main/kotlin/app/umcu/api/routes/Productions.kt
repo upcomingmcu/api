@@ -1,6 +1,6 @@
 package app.umcu.api.routes
 
-import app.umcu.api.data.ProductionsDAOFacadeImpl
+import app.umcu.api.data.productions.ProductionsDAOFacadeImpl
 import app.umcu.api.models.Production
 import app.umcu.api.models.Response
 import io.bkbn.kompendium.core.metadata.GetInfo
