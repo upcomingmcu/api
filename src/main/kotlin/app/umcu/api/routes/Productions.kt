@@ -2,7 +2,6 @@ package app.umcu.api.routes
 
 import app.umcu.api.models.Production
 import app.umcu.api.models.Response
-import app.umcu.api.models.sampleDataSet
 import io.bkbn.kompendium.core.metadata.GetInfo
 import io.bkbn.kompendium.core.plugin.NotarizedRoute
 import io.bkbn.kompendium.json.schema.definition.TypeDefinition
@@ -11,7 +10,6 @@ import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
 import io.ktor.server.plugins.ratelimit.*
-import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.productionsRoute() {
@@ -22,7 +20,7 @@ fun Route.productionsRoute() {
 				allProductionsDoc()
 
 				get {
-					call.respond(Response(*Production.sampleDataSet))
+					throw NotFoundException()
 				}
 			}
 
@@ -31,10 +29,7 @@ fun Route.productionsRoute() {
 				productionBySlugDoc()
 
 				get {
-					val slug = call.parameters["slug"]
-					val foundProduction = Production.sampleDataSet.firstOrNull { it.slug.equals(slug, true) }
-					if (foundProduction == null) throw NotFoundException()
-					else call.respond(Response(foundProduction))
+					throw NotFoundException()
 				}
 			}
 
