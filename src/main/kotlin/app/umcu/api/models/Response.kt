@@ -7,4 +7,5 @@ data class Response<T>(
 	val count: Int, val data: List<T>
 ) {
 	constructor(vararg items: T) : this(count = items.size, data = items.asList())
+	constructor(items: List<T>) : this(count = items.size, data = items)
 }
