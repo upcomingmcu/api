@@ -1,5 +1,6 @@
 package app.umcu.api.data
 
+import app.umcu.api.models.Production
 import io.ktor.server.application.*
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
@@ -26,10 +27,27 @@ object DatabaseSingleton {
 		val database = connect(environment, embedded)
 		TransactionManager.defaultDatabase = database
 
+		val data = listOf(
+			Production(tmdbId = 24428, title = "The Avengers", releaseDate = null),
+			Production(tmdbId = 99861, title = "Avengers: Age of Ultron", releaseDate = null),
+			Production(tmdbId = 299536, title = "Avengers: Infinity War", releaseDate = null),
+			Production(tmdbId = 299534, title = "Avengers: Endgame", releaseDate = null),
+			Production(tmdbId = 1003596, title = "Avengers 5", releaseDate = null),
+			Production(tmdbId = 1003598, title = "Avengers: Secret Wars", releaseDate = null)
+		)
+
 		transaction {
 			SchemaUtils.create(ProductionsTable)
 
-			// TODO load data
+			data.forEach {
+				ProductionDao.new {
+					slug = it.slug
+					tmdbId = it.tmdbId
+					title = it.title
+				}
+			}
+
+			// TODO load data from remote source
 		}
 	}
 
