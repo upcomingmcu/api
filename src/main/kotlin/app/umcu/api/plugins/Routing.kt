@@ -22,6 +22,10 @@ fun Application.configureRouting() {
 			val code = HttpStatusCode.NotFound
 			call.respond(code, ErrorResponse(code, cause.localizedMessage))
 		}
+		exception<BadRequestException> { call, cause ->
+			val code = HttpStatusCode.BadRequest
+			call.respond(code, ErrorResponse(code, cause.localizedMessage))
+		}
 
 		status(HttpStatusCode.NotFound) { call, code -> call.respond(code, ErrorResponse(code)) }
 		status(HttpStatusCode.TooManyRequests) { call, code -> call.respond(code, ErrorResponse(code)) }
