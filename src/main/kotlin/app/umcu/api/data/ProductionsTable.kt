@@ -10,5 +10,5 @@ object ProductionsTable : IntIdTable() {
 	val slug: Column<String> = text("slug").uniqueIndex()
 	val tmdbId: Column<Int> = integer("tmdbId")
 	val title: Column<String> = text("title")
-	val releaseDate: Column<Instant> = timestamp("releaseDate")
+	val releaseDate: Column<Instant?> = timestamp("releaseDate").nullable()
 }
