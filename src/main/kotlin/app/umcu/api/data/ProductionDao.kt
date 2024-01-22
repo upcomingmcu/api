@@ -1,0 +1,15 @@
+package app.umcu.api.data
+
+import org.jetbrains.exposed.dao.IntEntity
+import org.jetbrains.exposed.dao.IntEntityClass
+import org.jetbrains.exposed.dao.id.EntityID
+
+@Suppress("unused")
+class ProductionDao(id: EntityID<Int>) : IntEntity(id) {
+	companion object : IntEntityClass<ProductionDao>(ProductionsTable)
+
+	var slug by ProductionsTable.slug
+	var tmdbId by ProductionsTable.tmdbId
+	var title by ProductionsTable.title
+	var releaseDate by ProductionsTable.releaseDate
+}
