@@ -1,23 +1,9 @@
 package app.umcu.api.plugins
 
+import app.umcu.api.data.DatabaseSingleton
 import io.ktor.server.application.*
-import java.sql.Connection
-import java.sql.DriverManager
 
 fun Application.configureDatabases() {
-	val dbConnection: Connection =
-		connectToPostgres(environment.config.property("ktor.development").getString().toBoolean())
-}
-
-fun Application.connectToPostgres(embedded: Boolean): Connection {
-	Class.forName("org.postgresql.Driver")
-	if (embedded) {
-		return DriverManager.getConnection("jdbc:h2:mem:test;DB_CLOSE_DELAY=-1", "root", "")
-	} else {
-		val db = environment.config.property("postgres.db").getString()
-		val user = environment.config.property("postgres.user").getString()
-		val password = environment.config.property("postgres.password").getString()
-		val url = "jdbc:postgresql://db:5432/$db"
-		return DriverManager.getConnection(url, user, password)
-	}
+	val embedded = environment.config.property("ktor.development").getString().toBoolean()
+	DatabaseSingleton.init(environment, embedded)
 }
