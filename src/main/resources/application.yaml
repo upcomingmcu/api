@@ -10,3 +10,4 @@ postgres:
   db: "$POSTGRES_DB:"
   user: "$POSTGRES_USER:"
   password: "$POSTGRES_PASSWORD:"
+tmdb_api_key: "$TMDB_API_KEY:"
