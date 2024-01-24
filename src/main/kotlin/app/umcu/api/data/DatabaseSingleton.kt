@@ -3,6 +3,7 @@ package app.umcu.api.data
 import app.umcu.api.data.productions.ProductionDao
 import app.umcu.api.data.productions.ProductionsTable
 import app.umcu.api.models.Production
+import app.umcu.api.remote.RemoteServiceImpl
 import io.ktor.server.application.*
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
@@ -50,6 +51,9 @@ object DatabaseSingleton {
 			}
 
 			// TODO load data from remote source
+
+			val tmdbApiKey = environment.config.property("tmdb_api_key").getString()
+			RemoteServiceImpl(tmdbApiKey).collectData()
 		}
 	}
 
