@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package app.umcu.api.remote.models
 
 import kotlinx.serialization.ExperimentalSerializationApi

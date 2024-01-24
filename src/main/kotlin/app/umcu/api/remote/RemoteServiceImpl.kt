@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory
 class RemoteServiceImpl(
 	tmdbApiKey: String, private val httpService: HttpService = HttpService()
 ) : RemoteService {
+	@Suppress("unused")
 	private val logger: Logger = LoggerFactory.getLogger(this::class.java.simpleName)
 
 	override val baseUrl: String = "https://api.themoviedb.org/3"
