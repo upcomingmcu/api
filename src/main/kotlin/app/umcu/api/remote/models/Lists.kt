@@ -7,8 +7,17 @@ import kotlinx.serialization.json.JsonNames
 
 object Lists {
 	@Serializable
+	enum class MediaType {
+		@SerialName("movie")
+		MOVIE,
+
+		@SerialName("tv")
+		TV
+	}
+
+	@Serializable
 	data class Item @OptIn(ExperimentalSerializationApi::class) constructor(
-		val id: Int, @JsonNames("title", "name") val title: String, @SerialName("media_type") val mediaType: String
+		val id: Int, @JsonNames("title", "name") val title: String, @SerialName("media_type") val mediaType: MediaType
 	)
 
 	@Serializable

@@ -5,24 +5,24 @@ import kotlinx.serialization.Serializable
 
 object ReleaseDates {
 	@Serializable
-	enum class ReleaseType(value: Int) {
+	enum class ReleaseType {
 		@SerialName("1")
-		PREMIERE(1),
+		PREMIERE,
 
 		@SerialName("2")
-		LIMITED_THEATRICAL(2),
+		LIMITED_THEATRICAL,
 
 		@SerialName("3")
-		THEATRICAL(3),
+		THEATRICAL,
 
 		@SerialName("4")
-		DIGITAL(4),
+		DIGITAL,
 
 		@SerialName("5")
-		PHYSICAL(5),
+		PHYSICAL,
 
 		@SerialName("6")
-		TV(6)
+		TV
 	}
 
 	@Serializable
