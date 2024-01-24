@@ -10,6 +10,7 @@ prometheus = "1.12.2"
 kompendium = "3.14.4"
 
 [libraries]
+# Ktor server
 ktor-server-core = { group = "io.ktor", name = "ktor-server-core-jvm", version.ref = "ktor" }
 ktor-server-content-negotiation = { group = "io.ktor", name = "ktor-server-content-negotiation-jvm", version.ref = "ktor" }
 ktor-server-call-logging = { group = "io.ktor", name = "ktor-server-call-logging-jvm", version.ref = "ktor" }
@@ -25,15 +26,22 @@ ktor-server-netty = { group = "io.ktor", name = "ktor-server-netty-jvm", version
 ktor-server-config = { group = "io.ktor", name = "ktor-server-config-yaml", version.ref = "ktor" }
 ktor-server-metrics-micrometer = { group = "io.ktor", name = "ktor-server-metrics-micrometer", version.ref = "ktor" }
 ktor-server-rate-limit = { group = "io.ktor", name = "ktor-server-rate-limit", version.ref = "ktor" }
+# Ktor client
+ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
+ktor-client-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
+# Ktor misc.
 ktor-serialization = { group = "io.ktor", name = "ktor-serialization-kotlinx-json-jvm", version.ref = "ktor" }
 micrometer-registry-prometheus = { group = "io.micrometer", name = "micrometer-registry-prometheus", version.ref = "prometheus" }
 logback = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
+# Databases
 h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
 postgresql = { group = "org.postgresql", name = "postgresql", version.ref = "postgres" }
 exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
 exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
 exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
 exposed-datetime = { group = "org.jetbrains.exposed", name = "exposed-kotlin-datetime", version.ref = "exposed" }
+# General misc.
 kompendium = { group = "io.bkbn", name = "kompendium-core", version.ref = "kompendium" }
 ktor-server-tests-jvm = { group = "io.ktor", name = "ktor-server-tests-jvm", version.ref = "ktor" }
 kotlin-test-junit = { group = "org.jetbrains.kotlin", name = "kotlin-test-junit", version.ref = "kotlin" }
@@ -44,6 +52,7 @@ ktor-server = ["ktor-server-core", "ktor-server-content-negotiation",
     "ktor-server-caching-headers", "ktor-server-conditional-headers", "ktor-server-cors",
     "ktor-server-host-common", "ktor-server-status-pages", "ktor-server-resources", "ktor-server-netty",
     "ktor-server-config", "ktor-server-metrics-micrometer", "ktor-server-rate-limit"]
+ktor-client = ["ktor-client-core", "ktor-client-cio", "ktor-client-content-negotiation"]
 
 [plugins]
 kotlin = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }

@@ -20,6 +20,7 @@ kotlin {
 
 dependencies {
     implementation(libs.bundles.ktor.server)
+    implementation(libs.bundles.ktor.client)
     implementation(libs.ktor.serialization)
     implementation(libs.micrometer.registry.prometheus)
     implementation(libs.logback)
