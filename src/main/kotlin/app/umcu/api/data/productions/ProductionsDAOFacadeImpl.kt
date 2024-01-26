@@ -1,6 +1,6 @@
 package app.umcu.api.data.productions
 
-import app.umcu.api.data.DatabaseSingleton.query
+import app.umcu.api.data.DatabaseSingleton
 import app.umcu.api.models.Production
 
 class ProductionsDAOFacadeImpl : ProductionsDAOFacade {
@@ -8,11 +8,11 @@ class ProductionsDAOFacadeImpl : ProductionsDAOFacade {
 		slug = dao.slug, tmdbId = dao.tmdbId, title = dao.title, releaseDate = dao.releaseDate
 	)
 
-	override suspend fun allProductions(): List<Production> = query {
+	override suspend fun allProductions(): List<Production> = DatabaseSingleton.instance.query {
 		ProductionDao.all().map(::daoToProduction)
 	}
 
-	override suspend fun productionBySlug(slug: String): Production? = query {
+	override suspend fun productionBySlug(slug: String): Production? = DatabaseSingleton.instance.query {
 		ProductionDao.find { ProductionsTable.slug eq slug }.map(::daoToProduction).firstOrNull()
 	}
 }
