@@ -6,6 +6,7 @@ logback = "1.4.14"
 h2 = "2.2.224"
 postgres = "42.5.1"
 exposed = "0.41.1"
+koin = "3.5.3"
 prometheus = "1.12.2"
 kompendium = "3.14.4"
 
@@ -41,6 +42,8 @@ exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version
 exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
 exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }
 exposed-datetime = { group = "org.jetbrains.exposed", name = "exposed-kotlin-datetime", version.ref = "exposed" }
+# Koin
+koin-ktor = { group = "io.insert-koin", name = "koin-ktor", version.ref = "koin" }
 # General misc.
 kompendium = { group = "io.bkbn", name = "kompendium-core", version.ref = "kompendium" }
 ktor-server-tests-jvm = { group = "io.ktor", name = "ktor-server-tests-jvm", version.ref = "ktor" }

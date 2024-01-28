@@ -12,6 +12,7 @@ fun main(args: Array<String>) {
 fun Application.module() {
 	configureSerialization()
 	configureDatabases()
+	configureKoin()
 	configureMonitoring()
 	configureHTTP()
 	configureRateLimit()
