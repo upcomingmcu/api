@@ -1,10 +1,9 @@
 package app.umcu.api.plugins
 
 import app.umcu.api.models.ErrorResponse
-import app.umcu.api.routes.productionsRoute
+import app.umcu.api.routes.configureProductionsRoute
 import io.ktor.http.*
 import io.ktor.server.application.*
-import io.ktor.server.http.content.*
 import io.ktor.server.plugins.*
 import io.ktor.server.plugins.ratelimit.*
 import io.ktor.server.plugins.statuspages.*
@@ -33,14 +32,23 @@ fun Application.configureRouting() {
 	install(Resources)
 
 	routing {
+		/**
+		 * Define a rate limit of `n` requests per minute for all routes defined within this block.
+		 */
 		rateLimit {
+			/**
+			 * Define a simple `/ping` route to test the server response.
+			 */
 			get("/ping") {
 				call.respond(HttpStatusCode.OK, HttpStatusCode.OK.toString())
 			}
+
+			/**
+			 * Define the `/v1/productions` routes.
+			 */
+			configureProductionsRoute()
 		}
 
-		productionsRoute()
-
-		staticResources("/static", "static")
+//		staticResources("/static", "static")
 	}
 }
