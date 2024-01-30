@@ -2,8 +2,9 @@ package app.umcu.api.plugins
 
 import app.umcu.api.data.DatabaseSingleton
 import io.ktor.server.application.*
+import org.koin.ktor.ext.inject
 
 fun Application.configureDatabases() {
-	val embedded = environment.config.property("ktor.development").getString().toBoolean()
-	DatabaseSingleton.instance.init(embedded)
+	val ds: DatabaseSingleton by inject()
+	ds.init()
 }
