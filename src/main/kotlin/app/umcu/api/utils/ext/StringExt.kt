@@ -1,4 +1,4 @@
-package app.umcu.api.utils.extensions
+package app.umcu.api.utils.ext
 
 import java.util.*
 

@@ -1,6 +1,6 @@
 package app.umcu.api.models
 
-import app.umcu.api.utils.extensions.toSlug
+import app.umcu.api.utils.ext.toSlug
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable
 
