@@ -1,6 +1,6 @@
 package app.umcu.api.data.productions
 
-import app.umcu.api.data.DatabaseSingleton
+import app.umcu.api.DatabaseSingleton
 import app.umcu.api.models.Production
 import org.koin.java.KoinJavaComponent.inject
 

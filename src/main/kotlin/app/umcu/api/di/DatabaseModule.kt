@@ -1,6 +1,6 @@
 package app.umcu.api.di
 
-import app.umcu.api.data.DatabaseSingleton
+import app.umcu.api.DatabaseSingleton
 import io.ktor.server.application.*
 import org.koin.dsl.module
 

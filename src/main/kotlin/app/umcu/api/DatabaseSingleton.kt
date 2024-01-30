@@ -1,4 +1,4 @@
-package app.umcu.api.data
+package app.umcu.api
 
 import app.umcu.api.data.productions.ProductionsTable
 import io.ktor.server.application.*
@@ -67,6 +67,3 @@ class DatabaseSingleton private constructor(applicationEnvironment: ApplicationE
 		statement()
 	}
 }
-
-class DatabaseInitializationException(override val message: String? = null) :
-	Exception(message ?: "The database is already initialized.")
