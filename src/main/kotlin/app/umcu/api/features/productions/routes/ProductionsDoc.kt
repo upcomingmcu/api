@@ -16,9 +16,10 @@ fun Route.allProductionsDoc() {
 	install(NotarizedRoute()) {
 		tags = setOf(RoutingTags.PRODUCTIONS.value)
 		get = GetInfo.builder {
-			summary("Get all productions.")
-			description("Get a list of all previously released, upcoming, and to be announced productions.")
+			summary("") // todo
+			description("") // todo
 			operationId("allProductions")
+
 			response {
 				responseType<Response<Production>>()
 				responseCode(HttpStatusCode.OK)
@@ -32,9 +33,10 @@ fun Route.productionBySlugDoc() {
 	install(NotarizedRoute()) {
 		tags = setOf(RoutingTags.PRODUCTIONS.value)
 		get = GetInfo.builder {
-			summary("Get a specific production by its slug.")
-			description("Get a single production in the database by its unique slug identifier.")
+			summary("") // todo
+			description("") // todo
 			operationId("productionBySlug")
+
 			parameters = listOf(
 				Parameter(
 					name = "slug",
@@ -44,15 +46,17 @@ fun Route.productionBySlugDoc() {
 					allowEmptyValue = false,
 				)
 			)
+
 			response {
 				responseType<Response<Production>>()
 				responseCode(HttpStatusCode.OK)
 				description("The production that matches the slug.")
 			}
+
 			canRespond {
 				responseType<NotFoundException>()
 				responseCode(HttpStatusCode.NotFound)
-				description("No production by that slug could be found.")
+				description("No production by that slug exists.")
 			}
 		}
 	}
@@ -62,9 +66,10 @@ fun Route.nextProductionDoc() {
 	install(NotarizedRoute()) {
 		tags = setOf(RoutingTags.PRODUCTIONS.value)
 		get = GetInfo.builder {
-			summary("Get the next production to be released.")
-			description("Get the next production to be released following the current, or provided, date.")
+			summary("") // todo
+			description("") // todo
 			operationId("nextProduction")
+
 			parameters = listOf(
 				Parameter(
 					name = "date",
@@ -74,11 +79,13 @@ fun Route.nextProductionDoc() {
 					allowEmptyValue = true,
 				)
 			)
+
 			response {
 				responseType<Response<Production>>()
 				responseCode(HttpStatusCode.OK)
 				description("The next production to be released.")
 			}
+
 			canRespond {
 				responseType<NotFoundException>()
 				responseCode(HttpStatusCode.NotFound)
