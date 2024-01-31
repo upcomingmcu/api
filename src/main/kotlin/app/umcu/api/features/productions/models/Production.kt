@@ -1,4 +1,4 @@
-package app.umcu.api.models
+package app.umcu.api.features.productions.models
 
 import app.umcu.api.utils.ext.toSlug
 import kotlinx.datetime.Instant

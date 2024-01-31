@@ -1,7 +1,8 @@
-package app.umcu.api.routes
+package app.umcu.api.features.productions.routes
 
-import app.umcu.api.data.productions.ProductionsDAOFacadeImpl
-import app.umcu.api.models.Production
+import app.umcu.api.RoutingTags
+import app.umcu.api.features.productions.data.ProductionsDAOFacadeImpl
+import app.umcu.api.features.productions.models.Production
 import app.umcu.api.models.Response
 import io.bkbn.kompendium.core.metadata.GetInfo
 import io.bkbn.kompendium.core.plugin.NotarizedRoute
@@ -51,7 +52,7 @@ fun Route.configureProductionsRoute() {
 
 private fun Route.allProductionsDoc() {
 	install(NotarizedRoute()) {
-		tags = setOf(RoutingTags.PRODUCTIONS.toString())
+		tags = setOf(RoutingTags.PRODUCTIONS.value)
 		get = GetInfo.builder {
 			summary("Get all productions.")
 			description("Get a list of all previously released, upcoming, and to be announced productions.")
@@ -67,7 +68,7 @@ private fun Route.allProductionsDoc() {
 
 private fun Route.productionBySlugDoc() {
 	install(NotarizedRoute()) {
-		tags = setOf(RoutingTags.PRODUCTIONS.toString())
+		tags = setOf(RoutingTags.PRODUCTIONS.value)
 		get = GetInfo.builder {
 			summary("Get a specific production by its slug.")
 			description("Get a single production in the database by its unique slug identifier.")
@@ -97,7 +98,7 @@ private fun Route.productionBySlugDoc() {
 
 private fun Route.nextProductionDoc() {
 	install(NotarizedRoute()) {
-		tags = setOf(RoutingTags.PRODUCTIONS.toString())
+		tags = setOf(RoutingTags.PRODUCTIONS.value)
 		get = GetInfo.builder {
 			summary("Get the next production to be released.")
 			description("Get the next production to be released following the current, or provided, date.")

@@ -1,4 +1,4 @@
-package app.umcu.api.data.productions
+package app.umcu.api.features.productions.dao
 
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass

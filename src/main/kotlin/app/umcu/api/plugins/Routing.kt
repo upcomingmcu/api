@@ -1,7 +1,7 @@
 package app.umcu.api.plugins
 
 import app.umcu.api.models.ErrorResponse
-import app.umcu.api.routes.configureProductionsRoute
+import app.umcu.api.features.productions.routes.configureProductionsRoute
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*

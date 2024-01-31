@@ -1,6 +1,6 @@
 package app.umcu.api
 
-import app.umcu.api.data.productions.ProductionsTable
+import app.umcu.api.features.productions.dao.ProductionsTable
 import io.ktor.server.application.*
 import kotlinx.coroutines.Dispatchers
 import org.jetbrains.exposed.sql.Database
