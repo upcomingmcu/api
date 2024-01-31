@@ -1,5 +1,6 @@
 package app.umcu.api.plugins
 
+import app.umcu.api.features.health.routes.healthRoutes
 import app.umcu.api.features.productions.routes.productionsRoutes
 import app.umcu.api.models.ErrorResponse
 import io.ktor.http.*
@@ -41,6 +42,11 @@ fun Application.configureRouting() {
 			 * Prefix all routes with "/v1" (representing the current API version).
 			 */
 			route("/v1") {
+				/**
+				 * Define the routes for the health endpoint.
+				 */
+				healthRoutes()
+
 				/**
 				 * Define the routes for the productions endpoint.
 				 */
