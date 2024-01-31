@@ -7,12 +7,15 @@ import app.umcu.api.remote.models.Series
 import io.ktor.client.request.*
 import io.ktor.http.*
 import kotlinx.coroutines.runBlocking
+import org.koin.java.KoinJavaComponent.inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class RemoteServiceImpl(
-	tmdbApiKey: String, private val httpService: HttpService = HttpService()
+	tmdbApiKey: String
 ) : RemoteService {
+	private val httpService by inject<HttpService>(HttpService::class.java)
+
 	@Suppress("unused")
 	private val logger: Logger = LoggerFactory.getLogger(this::class.java.simpleName)
 
@@ -47,7 +50,6 @@ class RemoteServiceImpl(
 			appendPathSegments("tv", seriesId.toString())
 		}
 	}
-
 
 	override fun collectData() = runBlocking {
 		// TODO
