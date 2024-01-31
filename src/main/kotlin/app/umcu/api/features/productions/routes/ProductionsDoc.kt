@@ -1,5 +1,6 @@
 package app.umcu.api.features.productions.routes
 
+import app.umcu.api.OperationId
 import app.umcu.api.RoutingTags
 import app.umcu.api.features.productions.models.Production
 import app.umcu.api.models.Response
@@ -18,7 +19,7 @@ fun Route.allProductionsDoc() {
 		get = GetInfo.builder {
 			summary("") // todo
 			description("") // todo
-			operationId("allProductions")
+			operationId(OperationId.ALL_PRODUCTIONS.value)
 
 			response {
 				responseType<Response<Production>>()
@@ -35,7 +36,7 @@ fun Route.productionBySlugDoc() {
 		get = GetInfo.builder {
 			summary("") // todo
 			description("") // todo
-			operationId("productionBySlug")
+			operationId(OperationId.PRODUCTION_BY_SLUG.value)
 
 			parameters = listOf(
 				Parameter(
@@ -68,7 +69,7 @@ fun Route.nextProductionDoc() {
 		get = GetInfo.builder {
 			summary("") // todo
 			description("") // todo
-			operationId("nextProduction")
+			operationId(OperationId.NEXT_PRODUCTION.value)
 
 			parameters = listOf(
 				Parameter(

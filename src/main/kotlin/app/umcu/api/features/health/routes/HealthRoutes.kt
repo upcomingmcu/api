@@ -1,5 +1,6 @@
 package app.umcu.api.features.health.routes
 
+import app.umcu.api.OperationId
 import app.umcu.api.RoutingTags
 import io.bkbn.kompendium.core.metadata.GetInfo
 import io.bkbn.kompendium.core.plugin.NotarizedRoute
@@ -24,7 +25,7 @@ fun Route.healthDoc() {
 		get = GetInfo.builder {
 			summary("Check the health of the API.")
 			description("") // todo
-			operationId(RoutingTags.HEALTH.value)
+			operationId(OperationId.HEALTH.value)
 
 			response {
 				responseType<String>()
