@@ -11,8 +11,11 @@ import org.koin.ktor.ext.inject
 fun Route.configureProductionsRoute() {
 	val facade by inject<ProductionsDAOFacadeImpl>()
 
-	route("/v1/productions") {
-		// allProductions
+	route("/productions") {
+
+		/**
+		 * All productions.
+		 */
 		route("") {
 			allProductionsDoc()
 
@@ -21,7 +24,9 @@ fun Route.configureProductionsRoute() {
 			}
 		}
 
-		// productionBySlug
+		/**
+		 * Single production by slug.
+		 */
 		route("/{slug}") {
 			productionBySlugDoc()
 
@@ -32,11 +37,14 @@ fun Route.configureProductionsRoute() {
 			}
 		}
 
-		// nextProduction
+		/**
+		 * Next production.
+		 */
 		route("/next") {
 			nextProductionDoc()
 
 			get {
+				// todo
 				throw NotFoundException()
 			}
 		}
