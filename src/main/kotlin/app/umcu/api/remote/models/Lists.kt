@@ -24,6 +24,10 @@ object Lists {
 
 	@Serializable
 	data class Details(
-		val id: Int, @SerialName("item_count") val itemCount: Int, val items: List<Item>
+		val id: Int,
+		@SerialName("item_count") val itemCount: Int,
+		val items: List<Item>,
+		val page: Int,
+		@SerialName("total_pages") val totalPages: Int
 	)
 }
