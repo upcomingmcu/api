@@ -36,6 +36,7 @@ class RemoteServiceImpl(
 		bearerAuth(authKey)
 		url {
 			appendPathSegments("list", listId.toString())
+			parameter("page", page)
 		}
 	}
 
