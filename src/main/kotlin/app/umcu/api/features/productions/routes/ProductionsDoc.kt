@@ -2,6 +2,7 @@ package app.umcu.api.features.productions.routes
 
 import app.umcu.api.OperationId
 import app.umcu.api.RoutingTags
+import app.umcu.api.features.productions.models.NextProduction
 import app.umcu.api.features.productions.models.Production
 import app.umcu.api.models.Response
 import io.bkbn.kompendium.core.metadata.GetInfo
@@ -82,7 +83,7 @@ fun Route.nextProductionDoc() {
 			)
 
 			response {
-				responseType<Response<Production>>()
+				responseType<Response<NextProduction>>()
 				responseCode(HttpStatusCode.OK)
 				description("The next production to be released.")
 			}

@@ -6,13 +6,14 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class Production(
+data class NextProduction(
 	override val slug: String,
 	@SerialName("tmdb_id") override val tmdbId: Int,
 	override val title: String,
-	@SerialName("release_date") override val releaseDate: Instant?
+	@SerialName("release_date") override val releaseDate: Instant?,
+	val next: String?
 ) : SharedProduction {
-	constructor(tmdbId: Int, title: String, releaseDate: Instant? = null) : this(
-		slug = title.toSlug(), tmdbId, title, releaseDate
+	constructor(tmdbId: Int, title: String, releaseDate: Instant? = null, next: String? = null) : this(
+		slug = title.toSlug(), tmdbId, title, releaseDate, next
 	)
 }
