@@ -10,6 +10,6 @@ val remoteServiceModule = module {
 			?: throw IllegalArgumentException("Koin could not find Ktor application environment.")
 		val config = applicationEnvironment.config
 
-		RemoteServiceImpl(tmdbApiKey = config.property("tmdb_api_key").getString())
+		RemoteServiceImpl(tmdbReadAccessToken = config.property("tmdb_read_access_token").getString())
 	}
 }

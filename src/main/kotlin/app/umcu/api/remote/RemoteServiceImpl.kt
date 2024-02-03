@@ -12,7 +12,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 class RemoteServiceImpl(
-	tmdbApiKey: String
+	tmdbReadAccessToken: String
 ) : RemoteService {
 	private val httpService by inject<HttpService>(HttpService::class.java)
 
@@ -20,7 +20,7 @@ class RemoteServiceImpl(
 	private val logger: Logger = LoggerFactory.getLogger(this::class.java.simpleName)
 
 	override val baseUrl: String = "https://api.themoviedb.org/3"
-	override val authKey: String = tmdbApiKey
+	override val authKey: String = tmdbReadAccessToken
 
 	/**
 	 * Get the details of a list.
