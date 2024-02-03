@@ -1,5 +1,6 @@
-package app.umcu.api.features.productions.dao
+package app.umcu.api.database.dao
 
+import app.umcu.api.database.tables.ProductionsTable
 import org.jetbrains.exposed.dao.IntEntity
 import org.jetbrains.exposed.dao.IntEntityClass
 import org.jetbrains.exposed.dao.id.EntityID

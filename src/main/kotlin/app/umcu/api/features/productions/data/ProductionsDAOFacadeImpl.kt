@@ -1,8 +1,8 @@
 package app.umcu.api.features.productions.data
 
-import app.umcu.api.DatabaseSingleton
-import app.umcu.api.features.productions.dao.ProductionDao
-import app.umcu.api.features.productions.dao.ProductionsTable
+import app.umcu.api.database.DatabaseSingleton
+import app.umcu.api.database.dao.ProductionDao
+import app.umcu.api.database.tables.ProductionsTable
 import app.umcu.api.features.productions.models.Production
 import org.koin.java.KoinJavaComponent.inject
 

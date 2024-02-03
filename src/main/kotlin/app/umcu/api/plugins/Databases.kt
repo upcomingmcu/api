@@ -1,6 +1,6 @@
 package app.umcu.api.plugins
 
-import app.umcu.api.DatabaseSingleton
+import app.umcu.api.database.DatabaseSingleton
 import io.ktor.server.application.*
 import org.koin.ktor.ext.inject
 
