@@ -5,6 +5,7 @@ import app.umcu.api.database.dao.ProductionDao
 import app.umcu.api.database.tables.ProductionsTable
 import app.umcu.api.features.productions.models.Production
 import app.umcu.api.features.productions.models.Production.Companion.toProduction
+import kotlinx.datetime.LocalDate
 import org.koin.java.KoinJavaComponent.inject
 
 class ProductionsServiceImpl : ProductionsService {
@@ -16,5 +17,10 @@ class ProductionsServiceImpl : ProductionsService {
 
 	override suspend fun productionBySlug(slug: String): Production? = databaseSingleton.query {
 		ProductionDao.find { ProductionsTable.slug eq slug }.map(::toProduction).firstOrNull()
+	}
+
+	override suspend fun nextProduction(date: LocalDate?): Production? = databaseSingleton.query {
+		// TODO
+		null
 	}
 }
