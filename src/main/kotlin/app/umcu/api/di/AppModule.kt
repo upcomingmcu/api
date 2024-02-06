@@ -1,21 +1,25 @@
 package app.umcu.api.di
 
-import app.umcu.api.DatabaseSingleton
+import app.umcu.api.database.DatabaseSingleton
 import app.umcu.api.remote.HttpService
 import app.umcu.api.remote.RemoteServiceImpl
 import io.ktor.server.application.*
 import org.koin.dsl.module
-import org.koin.mp.KoinPlatform.getKoin
 
 val appModule = module {
-	val applicationEnvironment: ApplicationEnvironment = getKoin().getProperty("KtorApplicationEnvironment")
-		?: throw IllegalArgumentException("Koin could not find Ktor application environment.")
+	single {
+		val applicationEnvironment: ApplicationEnvironment = getKoin().getProperty("KtorApplicationEnvironment")
+			?: throw IllegalArgumentException("Koin could not find Ktor application environment.")
+		applicationEnvironment
+	}
 
 	single {
-		DatabaseSingleton.getInstance(applicationEnvironment)
+		DatabaseSingleton.getInstance(get<ApplicationEnvironment>())
 	}
 
 	single { HttpService() }
 
-	single { RemoteServiceImpl(applicationEnvironment.config.property("tmdb_read_access_token").getString()) }
+	single {
+		RemoteServiceImpl(get<ApplicationEnvironment>().config.property("tmdb_read_access_token").getString())
+	}
 }
