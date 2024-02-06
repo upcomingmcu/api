@@ -14,7 +14,7 @@ val appModule = module {
 	}
 
 	single {
-		DatabaseSingleton.getInstance(get<ApplicationEnvironment>())
+		DatabaseSingleton.getInstance(get<ApplicationEnvironment>().config)
 	}
 
 	single { HttpService() }
