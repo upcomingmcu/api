@@ -34,13 +34,16 @@ class DatabaseSingleton private constructor(applicationEnvironment: ApplicationE
 						password = ""
 					)
 				} else {
-					val pgDriver = "org.postgresql.Driver"
-					Class.forName(pgDriver)
-					val db = config.property("postgres.db").getString()
-					val user = config.property("postgres.user").getString()
-					val password = config.property("postgres.password").getString()
-					val url = "jdbc:postgresql://db:5432/$db"
-					Database.connect(url, "org.postgresql.Driver", user, password)
+					val driver = "org.mariadb.jdbc.Driver"
+					Class.forName(driver)
+
+					val host = config.property("db.host").getString()
+					val port = config.property("db.port").getString()
+					val user = config.property("db.user").getString()
+					val pass = config.property("db.pass").getString()
+					val name = config.property("db.name").getString()
+
+					Database.connect("jdbc:mariadb://$host:$port/$name", driver, user, pass)
 				}
 			} catch (e: Exception) {
 				null

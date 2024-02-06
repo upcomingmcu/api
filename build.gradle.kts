@@ -25,7 +25,7 @@ dependencies {
     implementation(libs.micrometer.registry.prometheus)
     implementation(libs.logback)
     implementation(libs.h2)
-    implementation(libs.postgresql)
+    implementation(libs.mariadb)
     implementation(libs.exposed.core)
     implementation(libs.exposed.jdbc)
     implementation(libs.exposed.dao)

@@ -8,10 +8,12 @@ ktor:
   deployment:
     host: 0.0.0.0
     port: 8080
-# Postgres database
-postgres:
-  db: "$POSTGRES_DB:" # Database name
-  user: "$POSTGRES_USER:" # Username
-  password: "$POSTGRES_PASSWORD:" # Password
+# MariaDB
+db:
+  host: "$DB_HOST:db"
+  port: "$DB_PORT:3306"
+  user: "$DB_USER:"
+  pass: "$DB_PASS:"
+  name: "$DB_NAME:"
 # TMDB API
 tmdb_read_access_token: "$TMDB_READ_ACCESS_TOKEN:" # API Read Access Token (see: https://www.themoviedb.org/settings/api)

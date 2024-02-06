@@ -3,8 +3,10 @@ build/
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
-pgdata/
-grafana/
+db_data/
+grafana_data/
+proxy_data/
+proxy_letsencrypt/
 
 ### STS ###
 .apt_generated

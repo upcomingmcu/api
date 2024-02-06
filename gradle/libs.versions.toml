@@ -4,7 +4,7 @@ kotlin = "1.9.22"
 ktor = "2.3.8"
 logback = "1.4.14"
 h2 = "2.2.224"
-postgres = "42.5.1"
+mariadb = "3.3.2"
 exposed = "0.41.1"
 koin = "3.5.3"
 prometheus = "1.12.2"
@@ -37,7 +37,7 @@ micrometer-registry-prometheus = { group = "io.micrometer", name = "micrometer-r
 logback = { group = "ch.qos.logback", name = "logback-classic", version.ref = "logback" }
 # Databases
 h2 = { group = "com.h2database", name = "h2", version.ref = "h2" }
-postgresql = { group = "org.postgresql", name = "postgresql", version.ref = "postgres" }
+mariadb = { module = "org.mariadb.jdbc:mariadb-java-client", version.ref = "mariadb" }
 exposed-core = { group = "org.jetbrains.exposed", name = "exposed-core", version.ref = "exposed" }
 exposed-jdbc = { group = "org.jetbrains.exposed", name = "exposed-jdbc", version.ref = "exposed" }
 exposed-dao = { group = "org.jetbrains.exposed", name = "exposed-dao", version.ref = "exposed" }

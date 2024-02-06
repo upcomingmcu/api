@@ -7,77 +7,96 @@
 version: '3'
 
 networks:
-  umcunet:
+  umcu_net:
 
 volumes:
-  pgdata:
-  grafana:
+  db_data: { }
+  grafana_data: { }
+  proxy_data: { }
+  proxy_letsencrypt: { }
 
 services:
-  #
-  # The PostgreSQL database service.
-  #
   db:
-    image: postgres:16.1-bookworm
-    # These variables must match their corresponding variables in the 'app' service.
-    #   It is highly recommended you change all three of these values to keep your database secure.
+    image: mariadb:11.2.2
+    # Set database username, password, and name.
+    #   These values must match the corresponding variables in the "app" and "proxy" services.
     environment:
-      - POSTGRES_PASSWORD=ChangeMe
-      - POSTGRES_USER=umcu
-      - POSTGRES_DB=umcu
+      - MARIADB_RANDOM_ROOT_PASSWORD=1
+      - MARIADB_USER=umcu               # It is recommended to change this.
+      - MARIADB_PASSWORD=ChangeMe       # Create your own secure password.
+      - MARIADB_DATABASE=umcu           # It is recommended to change this.
     expose:
-      - 5432 # Do not change this
-    networks:
-      - umcunet
+      - 3306 # Do not change this unless you know what you're doing!
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - ./db_data:/var/lib/postgresql/data
+    networks:
+      - umcu_net
     restart: unless-stopped
-  #
-  # The metrics collection service.
-  #   This service will not be publicly accessible, please use Grafana for that.
-  #   Please change the username and password in 'prometheus.yml'.
-  #     See: https://prometheus.io/docs/guides/basic-auth/
-  #     Default password is "ChangeMe"
-  #
+
+  # This service will not be publicly accessible, please use Grafana for that.
+  # Please change the username and password in 'prometheus.yml'.
+  #   See: https://prometheus.io/docs/guides/basic-auth/
+  #   Default password is "ChangeMe"
   prometheus:
     image: prom/prometheus
     expose:
-      - 9090 # Do not change this
+      - 9090 # Do not change this unless you know what you're doing!
     networks:
-      - umcunet
+      - umcu_net
     volumes:
       - ./prometheus.yml:/etc/prometheus/prometheus.yml
     restart: unless-stopped
-  #
-  # The metrics visualization service.
-  #
+
+  # This service is publicly accessible (via username and password).
+  #   The default username and password are both "admin".
+  #   You will be prompted to change the password. Make this secure!
   grafana:
     image: grafana/grafana
-    ports:
-      - "3000:3000" # Change the port on the left side to change which port is used on your host machine.
-    networks:
-      - umcunet
+    expose:
+      - 3000 # Do not change this unless you know what you're doing!
     volumes:
-      - ./grafana:/var/lib/grafana
+      - ./grafana_data:/var/lib/grafana
+    networks:
+      - umcu_net
     depends_on:
       - prometheus
     restart: unless-stopped
-  #
-  # The UMCU API application service.
-  #
+
   app:
     build: .
-    # The "POSTGRES_*" variables must match their corresponding variables in the 'db' service.
     environment:
-      - POSTGRES_PASSWORD=ChangeMe
-      - POSTGRES_USER=umcu
-      - POSTGRES_DB=umcu
-      - RATE_LIMIT=100 # How many requests allowed per minute
-    ports:
-      - "8080:8080" # Change the port on the left side to change which port is used on your host machine.
+      - DB_HOST=db
+      - DB_PORT=3306
+      - DB_USER=umcu      # Must match the "MARIADB_USER" variable in the "db" service.
+      - DB_PASS=ChangeMe  # Must match the "MARIADB_PASSWORD" variable in the "db" service.
+      - DB_NAME=umcu      # Must match the "MARIADB_DATABASE" variable in the "db" service.
+      - RATE_LIMIT=100    # How many requests are allowed per minute.
+    expose:
+      - 8080 # Do not change this unless you know what you're doing!
     networks:
-      - umcunet
+      - umcu_net
     depends_on:
       - db
       - grafana
+    restart: unless-stopped
+
+  proxy:
+    image: jc21/nginx-proxy-manager:latest
+    ports:
+      - "80:80"   # HTTP. Do not change this.
+      - "81:81"   # Admin panel. Change the left side to change which port is used on your host machine.
+    environment:
+      - DB_MYSQL_HOST=db
+      - DB_MYSQL_PORT=3306
+      - DB_MYSQL_USER=umcu          # Must match the "MARIADB_USER" variable in the "db" service.
+      - DB_MYSQL_PASSWORD=ChangeMe  # Must match the "MARIADB_PASSWORD" variable in the "db" service.
+      - DB_MYSQL_NAME=umcu          # Must match the "MARIADB_DATABASE" variable in the "db" service.
+    volumes:
+      - ./proxy_data:/data
+      - ./proxy_letsencrypt:/etc/letsencrypt
+    networks:
+      - umcu_net
+    depends_on:
+      - db
+      - app
     restart: unless-stopped
