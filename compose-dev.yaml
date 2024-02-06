@@ -28,7 +28,7 @@ services:
     expose:
       - 3306 # Do not change this unless you know what you're doing!
     volumes:
-      - ./db_data:/var/lib/postgresql/data
+      - ./db_data:/var/lib/mysql
     networks:
       - umcu_net
     restart: unless-stopped
