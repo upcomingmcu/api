@@ -65,6 +65,7 @@ services:
   app:
     build: .
     environment:
+      - KTOR_ENV=prod     # Setting this to "dev" will tell the app to use the H2 embedded database.
       - DB_HOST=db
       - DB_PORT=3306
       - DB_USER=umcu      # Must match the "MARIADB_USER" variable in the "db" service.

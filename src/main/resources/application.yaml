@@ -1,6 +1,6 @@
 # Ktor application
 ktor:
-  development: "$KTOR_DEVELOPMENT:true"
+  environment: "$KTOR_ENV:dev"
   application:
     modules:
       - app.umcu.api.ApplicationKt.module
