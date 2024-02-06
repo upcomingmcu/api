@@ -1,5 +1,6 @@
 package app.umcu.api.features.productions.models
 
+import app.umcu.api.database.dao.ProductionDao
 import app.umcu.api.utils.ext.toSlug
 import kotlinx.datetime.Instant
 import kotlinx.serialization.SerialName
@@ -15,4 +16,8 @@ data class Production(
 	constructor(tmdbId: Int, title: String, releaseDate: Instant? = null) : this(
 		slug = title.toSlug(), tmdbId, title, releaseDate
 	)
+
+	companion object {
+		fun toProduction(dao: ProductionDao) = Production(dao.tmdbId, dao.title, dao.releaseDate)
+	}
 }
