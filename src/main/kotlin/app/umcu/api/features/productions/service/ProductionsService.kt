@@ -1,8 +1,8 @@
-package app.umcu.api.features.productions.data
+package app.umcu.api.features.productions.service
 
 import app.umcu.api.features.productions.models.Production
 
-interface ProductionsDAOFacade {
+interface ProductionsService {
 	suspend fun allProductions(): List<Production>
 	suspend fun productionBySlug(slug: String): Production?
 }

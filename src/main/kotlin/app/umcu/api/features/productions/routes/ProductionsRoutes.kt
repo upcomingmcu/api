@@ -1,6 +1,6 @@
 package app.umcu.api.features.productions.routes
 
-import app.umcu.api.features.productions.data.ProductionsDAOFacadeImpl
+import app.umcu.api.features.productions.service.ProductionsServiceImpl
 import app.umcu.api.models.Response
 import io.ktor.server.application.*
 import io.ktor.server.plugins.*
@@ -9,7 +9,7 @@ import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 
 fun Route.productionsRoutes() {
-	val facade by inject<ProductionsDAOFacadeImpl>()
+	val service by inject<ProductionsServiceImpl>()
 
 	route("/productions") {
 
@@ -20,7 +20,7 @@ fun Route.productionsRoutes() {
 			allProductionsDoc()
 
 			get {
-				call.respond(Response(facade.allProductions()))
+				call.respond(Response(service.allProductions()))
 			}
 		}
 
@@ -32,7 +32,7 @@ fun Route.productionsRoutes() {
 
 			get {
 				val slug = call.parameters["slug"] ?: throw BadRequestException("Slug parameter is required.")
-				val data = facade.productionBySlug(slug) ?: throw NotFoundException()
+				val data = service.productionBySlug(slug) ?: throw NotFoundException()
 				call.respond(Response(data))
 			}
 		}
