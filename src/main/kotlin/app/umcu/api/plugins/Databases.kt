@@ -5,6 +5,6 @@ import io.ktor.server.application.*
 import org.koin.ktor.ext.inject
 
 fun Application.configureDatabases() {
-	val ds by inject<DatabaseSingleton>()
-	ds.init()
+	val databaseSingleton by inject<DatabaseSingleton>()
+	databaseSingleton.init()
 }
