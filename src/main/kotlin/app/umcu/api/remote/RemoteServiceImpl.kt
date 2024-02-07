@@ -6,7 +6,6 @@ import app.umcu.api.remote.models.ReleaseDates
 import app.umcu.api.remote.models.Series
 import io.ktor.client.request.*
 import io.ktor.http.*
-import kotlinx.coroutines.runBlocking
 import org.koin.java.KoinJavaComponent.inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -102,9 +101,5 @@ class RemoteServiceImpl(
 		url {
 			appendPathSegments("tv", seriesId.toString())
 		}
-	}
-
-	override fun collectData() = runBlocking {
-		// TODO
 	}
 }

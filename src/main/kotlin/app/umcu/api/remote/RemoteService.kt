@@ -13,5 +13,4 @@ interface RemoteService {
 	suspend fun getMovieDetails(movieId: Int): Movies.Details
 	suspend fun getMovieReleaseDates(movieId: Int): ReleaseDates.Details
 	suspend fun getSeriesDetails(seriesId: Int): Series.Details
-	fun collectData()
 }
