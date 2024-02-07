@@ -1,14 +1,19 @@
 package app.umcu.api.database
 
 import app.umcu.api.database.tables.ProductionsTable
+import app.umcu.api.remote.DataCollectionService
+import app.umcu.api.remote.DataCollectionServiceImpl
 import io.ktor.server.config.*
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.runBlocking
 import org.jetbrains.exposed.sql.Database
 import org.jetbrains.exposed.sql.SchemaUtils
 import org.jetbrains.exposed.sql.Transaction
+import org.jetbrains.exposed.sql.batchInsert
 import org.jetbrains.exposed.sql.transactions.TransactionManager
 import org.jetbrains.exposed.sql.transactions.experimental.newSuspendedTransaction
 import org.jetbrains.exposed.sql.transactions.transaction
+import org.koin.java.KoinJavaComponent.inject
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -71,6 +76,8 @@ class DatabaseSingleton private constructor(private val applicationConfig: Appli
 	 * Set the default database and create the table(s).
 	 */
 	fun init() {
+		val dataCollectionService: DataCollectionService by inject(DataCollectionServiceImpl::class.java)
+
 		logger.info("Attempting to initialize the database.")
 
 		if (initialized) throw DatabaseInitializationException()
@@ -79,7 +86,24 @@ class DatabaseSingleton private constructor(private val applicationConfig: Appli
 			connect(applicationConfig.property("ktor.environment").getString().equals("dev", true))
 
 		transaction {
+			// Drop the productions table then create it.
+			SchemaUtils.drop(ProductionsTable)
 			SchemaUtils.create(ProductionsTable)
+
+			// Add data to the table from the remote service.
+			runBlocking {
+				ProductionsTable.batchInsert(dataCollectionService.collectAllMovies()) { production ->
+					this[ProductionsTable.slug] = production.slug
+					this[ProductionsTable.tmdbId] = production.tmdbId
+					this[ProductionsTable.title] = production.title
+					this[ProductionsTable.overview] = production.overview
+					this[ProductionsTable.releaseDate] = production.releaseDate
+					this[ProductionsTable.posterUrl] = production.posterUrl
+					this[ProductionsTable.mediaType] = production.mediaType
+				}
+
+				// TODO Implement `collectAllSeries()`
+			}
 		}
 
 		initialized = true
