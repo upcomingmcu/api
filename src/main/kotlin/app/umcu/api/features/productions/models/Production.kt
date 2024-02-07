@@ -8,16 +8,27 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class Production(
-	override val slug: String,
+	@SerialName("slug") override val slug: String,
 	@SerialName("tmdb_id") override val tmdbId: Int,
-	override val title: String,
-	@SerialName("release_date") override val releaseDate: Instant?
+	@SerialName("title") override val title: String,
+	@SerialName("overview") override val overview: String?,
+	@SerialName("release_date") override val releaseDate: Instant?,
+	@SerialName("poster_url") override val posterUrl: String?,
+	@SerialName("media_type") override val mediaType: String
 ) : SharedProduction {
-	constructor(tmdbId: Int, title: String, releaseDate: Instant? = null) : this(
-		slug = title.toSlug(), tmdbId, title, releaseDate
+	constructor(
+		tmdbId: Int,
+		title: String,
+		overview: String? = null,
+		releaseDate: Instant? = null,
+		posterUrl: String? = null,
+		mediaType: String
+	) : this(
+		slug = title.toSlug(), tmdbId, title, overview, releaseDate, posterUrl, mediaType
 	)
 
 	companion object {
-		fun toProduction(dao: ProductionDao) = Production(dao.tmdbId, dao.title, dao.releaseDate)
+		fun toProduction(dao: ProductionDao) =
+			Production(dao.tmdbId, dao.title, dao.overview, dao.releaseDate, dao.posterUrl, dao.mediaType)
 	}
 }
