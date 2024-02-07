@@ -12,5 +12,8 @@ class ProductionDao(id: EntityID<Int>) : IntEntity(id) {
 	var slug by ProductionsTable.slug
 	var tmdbId by ProductionsTable.tmdbId
 	var title by ProductionsTable.title
+	var overview by ProductionsTable.overview
 	var releaseDate by ProductionsTable.releaseDate
+	var posterUrl by ProductionsTable.posterUrl
+	var mediaType by ProductionsTable.mediaType
 }
